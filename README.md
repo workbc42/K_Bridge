@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # K-Meal Bridge 🍜
 
 > A delivery assistant service for foreigners in Korea  
