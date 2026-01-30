@@ -1,0 +1,16 @@
+{
+  "name": "k-meal-bridge",
+  "version": "0.1.0",
+  "description": "A delivery assistant service for foreigners in Korea",
+  "scripts": {
+    "dev": "npm run dev:frontend & npm run dev:backend",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/STH-1-Class-One-Group/K_Bridge.git"
+  },
+  "keywords": ["delivery", "korea", "foreigner", "food"],
+  "license": "MIT"
+}
