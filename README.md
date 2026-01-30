@@ -108,8 +108,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 프로젝트에 대한 문의사항이 있으시면:
 
 - **Email**: workbc42@gmail.com
-- **Issue Tracker**: [GitHub Issues](https://github.com/your-team/k-meal-bridge/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-team/k-meal-bridge/discussions)
+- **Issue Tracker**: [GitHub Issues](https://github.com/STH-1-Class-One-Group/K_Bridge/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/STH-1-Class-One-Group/K_Bridge/discussions)
 
 ---
 
