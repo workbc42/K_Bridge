@@ -61,15 +61,12 @@
 ---
 
 ## 🤝 기여하기
-
 K-Meal Bridge는 오픈 소스 프로젝트입니다. 기여를 환영합니다!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
+    1. Fork → 자신의 GitHub에 K_Bridge 복사됨
+    2. git clone https://github.com/STH-1-Class-One-Group/K_Bridge.git
+    3. 기능 추가/수정
+    4. git push origin feature/***-delivery
+    5. 원본에 Pull Request → "이 기능 병합해 주세요!"
 ---
 
 ## 🗓️ 로드맵
