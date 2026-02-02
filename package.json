@@ -9,8 +9,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/STH-1-Class-One-Group/K_Bridge.git"
+    "url": "git+https://github.com/STH-1-Class-One-Group/K_Bridge.git"
   },
-  "keywords": ["delivery", "korea", "foreigner", "food"],
-  "license": "MIT"
+  "keywords": [
+    "delivery",
+    "korea",
+    "foreigner",
+    "food"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "author": "",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/STH-1-Class-One-Group/K_Bridge/issues"
+  },
+  "homepage": "https://github.com/STH-1-Class-One-Group/K_Bridge#readme"
 }
