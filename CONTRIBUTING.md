@@ -1,4 +1,4 @@
-# Contributing to K-Meal Bridge
+﻿# Contributing to K-Meal Bridge
 
 ## 협업 환경 구축
 
@@ -63,3 +63,4 @@ git commit -m "docs: README에 설치 가이드 추가"
 ## 테스트
 
 모든 PR은 테스트를 포함해야 합니다.
+

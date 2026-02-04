@@ -1,4 +1,4 @@
-[![Test](https://github.com/STH-1-Class-One-Group/K_Bridge/actions/workflows/test.yml/badge.svg)](https://github.com/STH-1-Class-One-Group/K_Bridge/actions/workflows/test.yml)
+﻿[![Test](https://github.com/STH-1-Class-One-Group/K_Bridge/actions/workflows/test.yml/badge.svg)](https://github.com/STH-1-Class-One-Group/K_Bridge/actions/workflows/test.yml)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 ![GitHub stars](https://img.shields.io/github/stars/your-team/k-meal-bridge)
@@ -122,3 +122,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Made with ❤️ for foreigners in Korea**
+

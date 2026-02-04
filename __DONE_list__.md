@@ -1,4 +1,4 @@
-✅ 완료된 작업 
+﻿✅ 완료된 작업 
 
  README.md
  LICENSE
@@ -13,3 +13,4 @@
  Discussions
 
 → 프로젝트 관리 체계 완성!
+
