@@ -1,144 +1,400 @@
-﻿const features = [
+﻿'use client'
+
+import { useEffect, useState } from 'react'
+
+const initialOrders = [
   {
-    title: 'Multi-language ordering',
-    desc: 'Order Korean delivery in your language with guided menu translation.',
+    id: 'ORD-2401',
+    status: '접수',
+    customer: 'John Doe',
+    messenger: 'fb_108293',
+    address: '서울시 강남구 테헤란로 123, 101동 501호',
+    request: '문 앞에 두고 문자 주세요',
+    orderDetail: '김치찌개 x1, 공기밥 x1, 콜라 x1',
+    total: '13,000원',
+    time: '14:32',
+    thumbTone: 'tone-1',
   },
   {
-    title: 'Local payment support',
-    desc: 'Pay with foreign cards or local options without extra steps.',
+    id: 'ORD-2402',
+    status: '접수',
+    customer: 'Emma Chen',
+    messenger: 'ig_552901',
+    address: '서울시 송파구 올림픽로 55',
+    request: '계단 X, 엘리베이터 사용',
+    orderDetail: '짜장면 x1, 탕수육(소) x1',
+    total: '21,000원',
+    time: '14:40',
+    thumbTone: 'tone-2',
   },
   {
-    title: 'Live order tracking',
-    desc: 'Track your delivery status in real time with friendly updates.',
+    id: 'ORD-2403',
+    status: '처리중',
+    customer: 'Mike Lee',
+    messenger: 'fb_330194',
+    address: '서울시 마포구 월드컵북로 28',
+    request: '덜 맵게',
+    orderDetail: '닭갈비 x1, 치즈 추가',
+    total: '16,500원',
+    time: '14:18',
+    thumbTone: 'tone-3',
+  },
+  {
+    id: 'ORD-2404',
+    status: '처리중',
+    customer: 'Sarah Park',
+    messenger: 'ig_830144',
+    address: '서울시 용산구 이태원로 155',
+    request: '포크 추가',
+    orderDetail: '쌀국수 x2, 짜조 x1',
+    total: '24,000원',
+    time: '14:12',
+    thumbTone: 'tone-4',
+  },
+  {
+    id: 'ORD-2405',
+    status: '완료',
+    customer: 'David Kim',
+    messenger: 'fb_991203',
+    address: '서울시 서초구 강남대로 465',
+    request: '벨 눌러주세요',
+    orderDetail: '족발(중) x1, 막국수 x1',
+    total: '36,000원',
+    time: '13:40',
+    thumbTone: 'tone-5',
+  },
+  {
+    id: 'ORD-2406',
+    status: '완료',
+    customer: 'Aiko Tanaka',
+    messenger: 'ig_441278',
+    address: '서울시 성동구 왕십리로 22',
+    request: '젓가락 2개',
+    orderDetail: '샐러드 x1, 샌드위치 x1',
+    total: '18,000원',
+    time: '13:22',
+    thumbTone: 'tone-6',
   },
 ]
 
-const steps = [
+const statusColumns = [
   {
-    label: '1. Pick your restaurant',
-    detail: 'Browse curated places with translated menus and reviews.',
+    key: '접수',
+    description: '신규 접수된 주문',
   },
   {
-    label: '2. Build your order',
-    detail: 'Add items, customize, and see totals instantly.',
+    key: '처리중',
+    description: '주문 대행 진행',
   },
   {
-    label: '3. We bridge the gap',
-    detail: 'We place the order and keep you updated until arrival.',
+    key: '완료',
+    description: '배달 완료 및 클로징',
   },
 ]
 
-export default function Home() {
+const metrics = [
+  {
+    label: '오늘 접수',
+    value: '12건',
+    detail: '평균 처리 5분',
+  },
+  {
+    label: '처리 대기',
+    value: '4건',
+    detail: 'SLAs 10분 이내',
+  },
+  {
+    label: '완료',
+    value: '36건',
+    detail: '고객 만족 4.8/5',
+  },
+]
+
+const channels = [
+  {
+    label: 'Instagram',
+    value: '48%',
+  },
+  {
+    label: 'Messenger',
+    value: '44%',
+  },
+  {
+    label: 'Other',
+    value: '8%',
+  },
+]
+
+function OrderCard({ order, onOpen, isMoved }) {
   return (
-    <div className="app-shell">
-      <main className="mx-auto max-w-6xl px-6 py-16">
-        <section className="glass-panel rounded-3xl px-8 py-12 md:px-12 fade-in">
-          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-            <div className="max-w-2xl">
-              <span className="tag inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs uppercase tracking-[0.2em]">
-                Seoul-ready delivery
-              </span>
-              <h1 className="section-title mt-6 text-4xl font-semibold leading-tight md:text-5xl">
-                K-Meal Bridge
-                <span className="block text-2xl text-[color:var(--muted)] md:text-3xl">
-                  A delivery assistant for foreigners in Korea
-                </span>
-              </h1>
-              <p className="mt-4 text-lg text-[color:var(--muted)]">
-                Skip the language barrier. Discover Korean restaurants, place orders with confidence,
-                and get real-time updates from the team that knows the local delivery culture.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <button className="rounded-full bg-[color:var(--primary)] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[rgba(42,91,94,0.25)]">
-                  Join the waitlist
-                </button>
-                <button className="rounded-full border border-[color:var(--primary)] px-6 py-3 text-sm font-semibold text-[color:var(--primary)]">
-                  View MVP roadmap
-                </button>
-              </div>
-            </div>
-            <div className="grid gap-4 md:w-[320px]">
-              <div className="grid-card rounded-2xl p-5 fade-in stagger-1">
-                <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">Beta cities</p>
-                <p className="mt-2 text-2xl font-semibold">Seoul · Busan</p>
-              </div>
-              <div className="grid-card rounded-2xl p-5 fade-in stagger-2">
-                <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">Languages</p>
-                <p className="mt-2 text-2xl font-semibold">EN · CN · JP · TH · VI</p>
-              </div>
-              <div className="grid-card rounded-2xl p-5 fade-in stagger-3">
-                <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">Service mode</p>
-                <p className="mt-2 text-2xl font-semibold">Concierge ordering</p>
-              </div>
-            </div>
-          </div>
-        </section>
+    <article className={`order-card${isMoved ? ' is-moved' : ''}`} onClick={() => onOpen(order)}>
+      <div className="order-card__header">
+        <div>
+          <p className="order-id">{order.id}</p>
+          <p className="order-time">{order.time}</p>
+        </div>
+        <span className={`status-pill status-${order.status}`}>{order.status}</span>
+      </div>
+      <div className="order-card__body">
+        <div className={`order-thumb ${order.thumbTone}`}>
+          <span>Screenshot</span>
+        </div>
+        <div>
+          <p className="order-name">{order.customer}</p>
+          <p className="order-detail">{order.orderDetail}</p>
+          <p className="order-address">{order.address}</p>
+        </div>
+      </div>
+      <div className="order-card__meta">
+        <span>메신저 ID: {order.messenger}</span>
+        <span>합계: {order.total}</span>
+      </div>
+      <div className="order-card__footer">
+        <p className="order-request">요청: {order.request}</p>
+        <button
+          className="order-action"
+          onClick={(event) => {
+            event.stopPropagation()
+            onOpen(order)
+          }}
+        >
+          상세 보기
+        </button>
+      </div>
+    </article>
+  )
+}
 
-        <section className="mt-16">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <h2 className="section-title text-3xl font-semibold">Why K-Meal Bridge works</h2>
-            <p className="max-w-xl text-sm text-[color:var(--muted)]">
-              Built for newcomers, travelers, and anyone who wants Korean delivery without the confusion.
+function OrderModal({ order, onClose, onStatusChange }) {
+  if (!order) return null
+
+  return (
+    <div className="modal-overlay" role="dialog" aria-modal="true" onClick={onClose}>
+      <div className="modal-card" onClick={(event) => event.stopPropagation()}>
+        <div className="modal-header">
+          <div>
+            <p className="modal-kicker">주문 상세</p>
+            <h2 className="modal-title">{order.id}</h2>
+            <p className="modal-subtitle">
+              {order.customer} · {order.time} · {order.messenger}
             </p>
           </div>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {features.map((feature) => (
-              <div key={feature.title} className="grid-card rounded-2xl p-6">
-                <h3 className="text-lg font-semibold">{feature.title}</h3>
-                <p className="mt-3 text-sm text-[color:var(--muted)]">{feature.desc}</p>
-              </div>
-            ))}
+          <button className="modal-close" onClick={onClose} aria-label="닫기">
+            닫기
+          </button>
+        </div>
+        <div className="modal-body">
+          <div className={`modal-thumb ${order.thumbTone}`}>
+            <span>Screenshot Preview</span>
           </div>
-        </section>
-
-        <section className="mt-16 grid gap-10 md:grid-cols-[1.2fr_1fr]">
-          <div className="grid-card rounded-3xl p-8">
-            <h2 className="section-title text-3xl font-semibold">How it feels to order</h2>
-            <div className="mt-6 grid gap-4">
-              {steps.map((step) => (
-                <div key={step.label} className="rounded-2xl border border-[color:var(--surface-2)] bg-[color:var(--surface-2)]/60 p-4">
-                  <p className="text-sm font-semibold text-[color:var(--accent-2)]">{step.label}</p>
-                  <p className="mt-2 text-sm text-[color:var(--muted)]">{step.detail}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="grid-card rounded-3xl p-8">
-            <h2 className="section-title text-3xl font-semibold">MVP focus</h2>
-            <ul className="mt-5 grid gap-3 text-sm text-[color:var(--muted)]">
-              <li>Translated onboarding and menu discovery</li>
-              <li>Order request workflow with status updates</li>
-              <li>Concierge payment support for foreign cards</li>
-              <li>Support chat for delivery questions</li>
-            </ul>
-            <div className="mt-6 rounded-2xl bg-[color:var(--surface-2)]/70 p-4 text-sm">
-              <p className="font-semibold text-[color:var(--accent-2)]">Target launch</p>
-              <p className="mt-1 text-[color:var(--muted)]">Q2 2026 pilot with limited restaurant partners</p>
-            </div>
-          </div>
-        </section>
-
-        <section className="mt-16">
-          <div className="grid-card flex flex-col items-start justify-between gap-6 rounded-3xl p-8 md:flex-row md:items-center">
+          <div className="modal-details">
             <div>
-              <h2 className="section-title text-3xl font-semibold">Be part of the pilot</h2>
-              <p className="mt-3 text-sm text-[color:var(--muted)]">
-                Join early testers and help shape the ordering experience in Korea.
-              </p>
+              <p className="modal-label">상태</p>
+              <span className={`status-pill status-${order.status}`}>{order.status}</span>
             </div>
-            <button className="rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[rgba(224,122,95,0.3)]">
-              Get early access
-            </button>
+            <div>
+              <p className="modal-label">주문 내역</p>
+              <p className="modal-text">{order.orderDetail}</p>
+            </div>
+            <div>
+              <p className="modal-label">주소</p>
+              <p className="modal-text">{order.address}</p>
+            </div>
+            <div>
+              <p className="modal-label">요청사항</p>
+              <p className="modal-text">{order.request}</p>
+            </div>
+            <div>
+              <p className="modal-label">합계</p>
+              <p className="modal-text">{order.total}</p>
+            </div>
           </div>
+        </div>
+        <div className="modal-footer">
+          <button className="ghost-btn" onClick={() => onStatusChange(order.id, '접수')}>
+            접수로 이동
+          </button>
+          <button className="ghost-btn" onClick={() => onStatusChange(order.id, '처리중')}>
+            처리중으로 이동
+          </button>
+          <button className="primary-btn" onClick={() => onStatusChange(order.id, '완료')}>
+            완료 처리
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Toast({ toast, onClose, onUndo }) {
+  if (!toast) return null
+
+  return (
+    <div className="toast" role="status" aria-live="polite">
+      <div>
+        <p className="toast-title">{toast.title}</p>
+        <p className="toast-subtitle">{toast.subtitle}</p>
+      </div>
+      <div className="toast-actions">
+        <button className="toast-undo" onClick={onUndo}>
+          Undo
+        </button>
+        <button className="toast-close" onClick={onClose} aria-label="알림 닫기">
+          닫기
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export default function Home() {
+  const [orders, setOrders] = useState(initialOrders)
+  const [selectedOrderId, setSelectedOrderId] = useState(null)
+  const [toast, setToast] = useState(null)
+  const [movedOrderId, setMovedOrderId] = useState(null)
+  const [lastChange, setLastChange] = useState(null)
+
+  const selectedOrder = orders.find((order) => order.id === selectedOrderId)
+
+  useEffect(() => {
+    if (!selectedOrderId) return
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setSelectedOrderId(null)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedOrderId])
+
+  useEffect(() => {
+    if (!toast) return undefined
+
+    const timer = setTimeout(() => setToast(null), 2600)
+    return () => clearTimeout(timer)
+  }, [toast])
+
+  useEffect(() => {
+    if (!movedOrderId) return undefined
+
+    const timer = setTimeout(() => setMovedOrderId(null), 1100)
+    return () => clearTimeout(timer)
+  }, [movedOrderId])
+
+  const handleStatusChange = (orderId, status) => {
+    const current = orders.find((order) => order.id === orderId)
+    if (!current || current.status === status) return
+
+    setLastChange({
+      orderId,
+      previousStatus: current.status,
+      nextStatus: status,
+    })
+
+    setOrders((prev) => prev.map((order) => (order.id === orderId ? { ...order, status } : order)))
+    setMovedOrderId(orderId)
+
+    setToast({
+      title: `${current.id} 상태 변경`,
+      subtitle: `${current.customer} · ${status}로 이동했습니다.`,
+    })
+  }
+
+  const handleUndo = () => {
+    if (!lastChange) return
+
+    setOrders((prev) =>
+      prev.map((order) =>
+        order.id === lastChange.orderId ? { ...order, status: lastChange.previousStatus } : order,
+      ),
+    )
+
+    setMovedOrderId(lastChange.orderId)
+    setToast({
+      title: `${lastChange.orderId} 변경 취소`,
+      subtitle: `${lastChange.previousStatus} 상태로 되돌렸습니다.`,
+    })
+    setLastChange(null)
+  }
+
+  return (
+    <div className="dashboard-shell">
+      <main className="mx-auto max-w-6xl px-6 py-12">
+        <header className="dashboard-header">
+          <div>
+            <p className="section-kicker">Operations</p>
+            <h1 className="section-title mt-2 text-4xl font-semibold">내부 주문 접수 대시보드</h1>
+            <p className="mt-3 text-sm text-[color:var(--muted)]">
+              Manychat에서 수신한 주문을 기준으로 운영팀이 처리하는 내부용 화면입니다. 현재는 목데이터로
+              구성되어 있습니다.
+            </p>
+          </div>
+          <div className="dashboard-actions">
+            <button className="primary-btn">신규 주문 가져오기</button>
+            <button className="ghost-btn">필터 설정</button>
+          </div>
+        </header>
+
+        <section className="metrics-grid">
+          {metrics.map((metric) => (
+            <div key={metric.label} className="metric-card">
+              <p className="metric-label">{metric.label}</p>
+              <p className="metric-value">{metric.value}</p>
+              <p className="metric-detail">{metric.detail}</p>
+            </div>
+          ))}
+        </section>
+
+        <section className="channel-strip">
+          {channels.map((channel) => (
+            <div key={channel.label} className="channel-card">
+              <span>{channel.label}</span>
+              <strong>{channel.value}</strong>
+            </div>
+          ))}
+        </section>
+
+        <section className="kanban">
+          {statusColumns.map((column) => (
+            <div key={column.key} className="kanban-column">
+              <div className="kanban-header">
+                <div>
+                  <p className="kanban-title">{column.key}</p>
+                  <p className="kanban-subtitle">{column.description}</p>
+                </div>
+                <span className="kanban-count">
+                  {orders.filter((order) => order.status === column.key).length}
+                </span>
+              </div>
+              <div className="kanban-list">
+                {orders
+                  .filter((order) => order.status === column.key)
+                  .map((order) => (
+                    <OrderCard
+                      key={order.id}
+                      order={order}
+                      isMoved={order.id === movedOrderId}
+                      onOpen={(data) => setSelectedOrderId(data.id)}
+                    />
+                  ))}
+              </div>
+            </div>
+          ))}
         </section>
       </main>
 
-      <footer className="mx-auto max-w-6xl px-6 pb-10 text-xs text-[color:var(--muted)]">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[color:var(--surface-2)] pt-6">
-          <span>Made for foreigners in Korea</span>
-          <span>Contact: workbc42@gmail.com</span>
-        </div>
-      </footer>
+      <OrderModal
+        order={selectedOrder}
+        onClose={() => setSelectedOrderId(null)}
+        onStatusChange={(orderId, status) => {
+          handleStatusChange(orderId, status)
+          setSelectedOrderId(orderId)
+        }}
+      />
+      <Toast toast={toast} onClose={() => setToast(null)} onUndo={handleUndo} />
     </div>
   )
 }
