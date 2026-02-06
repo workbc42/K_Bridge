@@ -1,5 +1,6 @@
 ﻿'use client'
 
+import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 const languages = [
@@ -11,13 +12,26 @@ const languages = [
 ]
 
 export default function LanguageSwitcher() {
+  const pathname = usePathname()
+  const router = useRouter()
+  const segments = pathname.split('/').filter(Boolean)
+  const current = languages.find((lang) => lang.code === segments[0])?.code || 'ko'
   const [open, setOpen] = useState(false)
-  const [lang, setLang] = useState('ko')
+
+  const handleChange = (next) => {
+    if (segments[0] && languages.some((lang) => lang.code === segments[0])) {
+      segments[0] = next
+      router.push('/' + segments.join('/'))
+    } else {
+      router.push(`/${next}${pathname}`)
+    }
+    setOpen(false)
+  }
 
   return (
     <div className="header-dropdown">
       <button type="button" className="header-button" onClick={() => setOpen(!open)}>
-        {lang.toUpperCase()}
+        {current.toUpperCase()}
       </button>
       {open ? (
         <div className="dropdown-menu">
@@ -25,11 +39,8 @@ export default function LanguageSwitcher() {
             <button
               key={item.code}
               type="button"
-              className={item.code === lang ? 'dropdown-item is-active' : 'dropdown-item'}
-              onClick={() => {
-                setLang(item.code)
-                setOpen(false)
-              }}
+              className={item.code === current ? 'dropdown-item is-active' : 'dropdown-item'}
+              onClick={() => handleChange(item.code)}
             >
               {item.label}
             </button>

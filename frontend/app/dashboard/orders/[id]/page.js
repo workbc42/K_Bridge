@@ -1,7 +1,8 @@
 import Link from 'next/link'
 
 export default function OrderDetailPage({ params }) {
-  const { id } = params
+  const { id, locale } = params || {}
+  const basePath = locale ? `/${locale}` : ''
 
   return (
     <div className="page-container">
@@ -13,7 +14,7 @@ export default function OrderDetailPage({ params }) {
             <p className="mt-3 text-sm text-[color:var(--muted)]">주문 ID: {id}</p>
           </div>
           <div className="dashboard-actions">
-            <Link className="ghost-btn" href="/dashboard/orders">
+            <Link className="ghost-btn" href={`${basePath}/dashboard/orders`}>
               목록으로
             </Link>
             <button className="primary-btn">상태 변경</button>

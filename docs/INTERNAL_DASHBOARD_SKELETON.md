@@ -11,7 +11,46 @@
 
 ---
 
-## 2) 전체 폴더 구조 (스켈레톤)
+## 2) 현재 구현 상태 (실제 코드 기준)
+
+### 현재 라우팅 구조
+```
+frontend/app/
+  page.js                 # /dashboard로 리다이렉트
+  dashboard/
+    layout.js             # Sidebar + Header + Mobile Drawer + Bottom Nav
+    page.js               # 대시보드 홈
+    orders/
+      page.js             # 주문 칸반 + 모달 + 추천/초안
+      [id]/page.js        # 주문 상세 스켈레톤
+    customers/page.js
+    payments/page.js
+    analytics/page.js
+    settings/page.js
+```
+
+### 구현된 레이아웃 컴포넌트
+```
+frontend/components/layout/
+  Sidebar.js
+  Header.js
+  MobileDrawer.js
+  MobileBottomNav.js
+  ThemeToggle.js
+  LanguageSwitcher.js
+  NotificationDropdown.js
+  ProfileDropdown.js
+```
+
+### 현재 특징
+- JS 기반(App Router)
+- 다크모드 토글 구현(로컬스토리지)
+- 다국어는 UI만 존재(실제 i18n 미연동)
+- 주문 프리뷰/추천/초안 기능은 `/dashboard/orders`에 집중
+
+---
+
+## 3) 목표 폴더 구조 (확장형 스켈레톤)
 ```
 frontend/
   app/
@@ -78,7 +117,7 @@ frontend/
 
 ---
 
-## 3) 레이아웃 구조
+## 4) 레이아웃 구조
 
 ### Desktop (1280px+)
 - 좌측 고정 Sidebar
@@ -95,7 +134,7 @@ frontend/
 
 ---
 
-## 4) 핵심 컴포넌트 설계
+## 5) 핵심 컴포넌트 설계
 
 ### Sidebar
 - 라우트별 활성 상태 표시
@@ -114,7 +153,7 @@ frontend/
 
 ---
 
-## 5) 테마 시스템 (라이트/다크)
+## 6) 테마 시스템 (라이트/다크)
 
 ### CSS Variables 기반
 ```css
@@ -128,7 +167,7 @@ frontend/
 
 ---
 
-## 6) 다국어 구조
+## 7) 다국어 구조
 
 ### 파일 구조
 ```
@@ -144,7 +183,7 @@ public/locales/{lang}/{namespace}.json
 
 ---
 
-## 7) 페이지 스켈레톤
+## 8) 페이지 스켈레톤
 
 - Dashboard (메트릭/차트 자리)
 - Orders (Kanban)
@@ -156,7 +195,7 @@ public/locales/{lang}/{namespace}.json
 
 ---
 
-## 8) 핵심 UI 컴포넌트
+## 9) 핵심 UI 컴포넌트
 
 - Button
 - Card
@@ -166,20 +205,29 @@ public/locales/{lang}/{namespace}.json
 
 ---
 
-## 9) 실행 방법
+## 10) 실행 방법
 ```bash
 npm install
 npm run dev
 ```
-접속: `http://localhost:3000`
+접속: `http://localhost:3000/dashboard`
 
 ---
 
-## 10) 다음 단계
+## 11) 다음 단계
 - 주문 관리 UX 강화 (드래그, 필터, SLA 경고)
 - 고객 상세/히스토리
 - 결제/정산 UI
 - 실시간 알림(WebSocket)
+
+---
+
+## 12) 통합 적용 순서 (현 코드 → 목표 구조)
+1. `dashboard/` 구조 유지 (현 상태)
+2. `components/features/orders/`로 주문 프리뷰 분리
+3. `i18n/` 적용 (ko/en 우선)
+4. `[locale]/` 라우팅으로 확장
+5. TS 전환은 마지막 단계로 분리
 
 ---
 

@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+const locales = ['ko', 'en', 'th', 'vi', 'zh']
+
 const items = [
   { key: 'dashboard', label: 'Dashboard', href: '/dashboard' },
   { key: 'orders', label: 'Orders', href: '/dashboard/orders' },
@@ -12,13 +14,17 @@ const items = [
 
 export default function MobileBottomNav() {
   const pathname = usePathname()
+  const segments = pathname.split('/').filter(Boolean)
+  const locale = locales.includes(segments[0]) ? segments[0] : null
+  const basePath = locale ? `/${locale}` : ''
 
   return (
     <nav className="mobile-bottom-nav">
       {items.map((item) => {
-        const active = pathname === item.href
+        const href = `${basePath}${item.href}`
+        const active = pathname === href
         return (
-          <Link key={item.key} href={item.href} className={active ? 'is-active' : ''}>
+          <Link key={item.key} href={href} className={active ? 'is-active' : ''}>
             <span>{item.label}</span>
           </Link>
         )

@@ -1,6 +1,9 @@
 ﻿'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+const locales = ['ko', 'en', 'th', 'vi', 'zh']
 
 const navItems = [
   { key: 'dashboard', label: 'Dashboard', href: '/dashboard' },
@@ -14,6 +17,11 @@ const navItems = [
 export default function MobileDrawer({ open, onClose }) {
   if (!open) return null
 
+  const pathname = usePathname()
+  const segments = pathname.split('/').filter(Boolean)
+  const locale = locales.includes(segments[0]) ? segments[0] : null
+  const basePath = locale ? `/${locale}` : ''
+
   return (
     <div className="drawer-overlay" onClick={onClose}>
       <aside className="drawer" onClick={(event) => event.stopPropagation()}>
@@ -25,13 +33,17 @@ export default function MobileDrawer({ open, onClose }) {
         </div>
         <nav className="drawer-nav">
           <ul>
-            {navItems.map((item) => (
-              <li key={item.key}>
-                <Link className="drawer-link" href={item.href} onClick={onClose}>
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {navItems.map((item) => {
+              const href = `${basePath}${item.href}`
+              const active = pathname === href
+              return (
+                <li key={item.key}>
+                  <Link className={active ? 'drawer-link is-active' : 'drawer-link'} href={href} onClick={onClose}>
+                    {item.label}
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
         </nav>
       </aside>

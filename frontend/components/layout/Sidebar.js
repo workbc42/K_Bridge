@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+const locales = ['ko', 'en', 'th', 'vi', 'zh']
+
 const navItems = [
   { key: 'dashboard', label: 'Dashboard', href: '/dashboard' },
   { key: 'orders', label: 'Orders', href: '/dashboard/orders', badge: 4 },
@@ -16,6 +18,10 @@ const navItems = [
 export default function Sidebar() {
   const pathname = usePathname()
   const [collapsed, setCollapsed] = useState(false)
+
+  const segments = pathname.split('/').filter(Boolean)
+  const locale = locales.includes(segments[0]) ? segments[0] : null
+  const basePath = locale ? `/${locale}` : ''
 
   useEffect(() => {
     const stored = window.localStorage.getItem('kmeal-sidebar')
@@ -38,7 +44,7 @@ export default function Sidebar() {
   return (
     <aside className={`sidebar${collapsed ? ' is-collapsed' : ''}`}>
       <div className="sidebar-header">
-        <Link href="/dashboard" className="sidebar-logo">
+        <Link href={`${basePath}/dashboard`} className="sidebar-logo">
           <span className="logo-mark" />
           <span className="logo-text">K-Meal Bridge</span>
         </Link>
@@ -49,10 +55,11 @@ export default function Sidebar() {
       <nav className="sidebar-nav">
         <ul>
           {navItems.map((item) => {
-            const isActive = pathname === item.href
+            const href = `${basePath}${item.href}`
+            const isActive = pathname === href
             return (
               <li key={item.key}>
-                <Link className={`sidebar-link${isActive ? ' is-active' : ''}`} href={item.href}>
+                <Link className={`sidebar-link${isActive ? ' is-active' : ''}`} href={href}>
                   <span className="sidebar-dot" />
                   <span className="sidebar-label">{item.label}</span>
                   {item.badge ? <span className="sidebar-badge">{item.badge}</span> : null}

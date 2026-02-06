@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+const locales = ['ko', 'en', 'th', 'vi', 'zh']
 
 const initialOrders = [
   {
@@ -181,6 +184,7 @@ function OrderCard({ order, onOpen, isMoved }) {
       <div className="order-card__footer">
         <p className="order-request">요청: {order.request}</p>
         <button
+          type="button"
           className="order-action"
           onClick={(event) => {
             event.stopPropagation()
@@ -205,6 +209,7 @@ function OrderModal({
   onApplyRecent,
   onAppendItem,
   onApplyRequest,
+  basePath = '',
 }) {
   if (!order) return null
 
@@ -219,9 +224,14 @@ function OrderModal({
               {order.customer} · {order.time} · {order.messenger}
             </p>
           </div>
-          <button className="modal-close" onClick={onClose} aria-label="닫기">
-            닫기
-          </button>
+          <div className="modal-header-actions">
+            <Link className="modal-close" href={`${basePath}/dashboard/orders/${order.id}`}>
+              상세 페이지
+            </Link>
+            <button className="modal-close" onClick={onClose} aria-label="닫기">
+              닫기
+            </button>
+          </div>
         </div>
         <div className="modal-body">
           <div className={`modal-thumb ${order.thumbTone}`}>
@@ -357,6 +367,11 @@ export default function OrdersPage() {
   const [lastChange, setLastChange] = useState(null)
   const [draftDetail, setDraftDetail] = useState('')
   const [draftRequest, setDraftRequest] = useState('')
+  const pathname = usePathname()
+
+  const segments = pathname.split('/').filter(Boolean)
+  const locale = locales.includes(segments[0]) ? segments[0] : null
+  const basePath = locale ? `/${locale}` : ''
 
   const selectedOrder = orders.find((order) => order.id === selectedOrderId)
 
@@ -500,6 +515,7 @@ export default function OrdersPage() {
                       key={order.id}
                       order={order}
                       isMoved={order.id === movedOrderId}
+                      basePath={basePath}
                       onOpen={(data) => setSelectedOrderId(data.id)}
                     />
                   ))}
@@ -523,6 +539,7 @@ export default function OrdersPage() {
         onApplyRecent={handleApplyRecent}
         onAppendItem={handleAppendItem}
         onApplyRequest={handleApplyRequest}
+        basePath={basePath}
       />
       <Toast toast={toast} onClose={() => setToast(null)} onUndo={handleUndo} />
     </div>

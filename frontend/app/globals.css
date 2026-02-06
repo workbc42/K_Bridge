@@ -51,6 +51,13 @@ body {
     linear-gradient(180deg, #f6f1ea 0%, #f3ece3 50%, #efe5d8 100%);
 }
 
+[data-theme='dark'] .dashboard-shell {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(224, 122, 95, 0.12), transparent 60%),
+    radial-gradient(800px 500px at 90% 10%, rgba(61, 64, 91, 0.12), transparent 60%),
+    linear-gradient(180deg, #0f1419 0%, #1a1f26 50%, #252b34 100%);
+}
+
 .section-title {
   font-family: var(--font-serif), ui-serif, Georgia, serif;
 }
@@ -382,6 +389,12 @@ body {
   gap: 12px;
 }
 
+.modal-header-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .modal-kicker {
   font-size: 0.7rem;
   text-transform: uppercase;
@@ -407,6 +420,7 @@ body {
   padding: 0.4rem 0.9rem;
   font-size: 0.75rem;
   color: var(--primary);
+  text-decoration: none;
 }
 
 .modal-body {
@@ -1035,4 +1049,46 @@ body {
 
 [data-sidebar='collapsed'] .dashboard-content {
   padding-left: 88px;
+}
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background: var(--background);
+}
+
+.auth-card {
+  width: min(420px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem;
+  display: grid;
+  gap: 1rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.auth-card h1 {
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-size: 1.5rem;
+}
+
+.auth-card form {
+  display: grid;
+  gap: 1rem;
+}
+
+.auth-card label {
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.auth-card input {
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
 }
