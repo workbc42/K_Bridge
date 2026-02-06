@@ -33,8 +33,14 @@ jobs:
           WIKI_REPO="https://x-access-token:${GH_TOKEN}@github.com/${REPO}.wiki.git"
 
           git clone "$WIKI_REPO" wiki
+          IGNORE_FILE="docs/.wikiignore"
+          RSYNC_EXCLUDES="--exclude .git"
+          if [ -f "$IGNORE_FILE" ]; then
+            RSYNC_EXCLUDES="$RSYNC_EXCLUDES --exclude-from $IGNORE_FILE"
+          fi
+
           # Keep wiki repo metadata; rsync deletes anything not excluded.
-          rsync -av --delete --exclude '.git' docs/ wiki/
+          rsync -av --delete $RSYNC_EXCLUDES docs/ wiki/
 
           # Home.md from docs/README.md
           if [ -f docs/README.md ]; then
@@ -51,10 +57,29 @@ jobs:
           : > "$tmp_setup"
           : > "$tmp_general"
 
-          find docs -type f -name '*.md' -print0 | sort -z | while IFS= read -r -d '' file; do
-            rel="${file#docs/}"
+          declare -A added
+
+          is_ignored() {
+            if [ -f "$IGNORE_FILE" ] && grep -Fxq "$1" "$IGNORE_FILE"; then
+              return 0
+            fi
+            return 1
+          }
+
+          add_link() {
+            local file="$1"
+            local rel="${file#docs/}"
+
             if [ "$rel" = "README.md" ]; then
-              continue
+              return 0
+            fi
+
+            if is_ignored "$rel"; then
+              return 0
+            fi
+
+            if [ -n "${added[$rel]}" ]; then
+              return 0
             fi
 
             first_line="$(head -n 1 "$file")"
@@ -79,6 +104,20 @@ jobs:
               setup ) echo "- [${title}](${link})" >> "$tmp_setup" ;;
               * ) echo "- [${title}](${link})" >> "$tmp_general" ;;
             esac
+
+            added[$rel]=1
+          }
+
+          # Preferred ordering inside sections.
+          add_link "docs/API.md"
+          add_link "docs/API_ROUTES.md"
+          add_link "docs/DATABASE.md"
+          add_link "docs/DB_SCHEMA.md"
+          add_link "docs/SETUP.md"
+          add_link "docs/DEPLOYMENT.md"
+
+          find docs -type f -name '*.md' -print0 | sort -z | while IFS= read -r -d '' file; do
+            add_link "$file"
           done
 
           {
@@ -105,6 +144,36 @@ jobs:
               cat "$tmp_general"
             fi
           } > wiki/_Sidebar.md
+
+          # Build Home.md with an index section.
+          if [ -f docs/README.md ]; then
+            {
+              cat docs/README.md
+              echo ""
+              echo "## Wiki Index"
+              echo "- [Home](Home)"
+              if [ -s "$tmp_api" ]; then
+                echo ""
+                echo "### API"
+                cat "$tmp_api"
+              fi
+              if [ -s "$tmp_db" ]; then
+                echo ""
+                echo "### DB"
+                cat "$tmp_db"
+              fi
+              if [ -s "$tmp_setup" ]; then
+                echo ""
+                echo "### Setup"
+                cat "$tmp_setup"
+              fi
+              if [ -s "$tmp_general" ]; then
+                echo ""
+                echo "### General"
+                cat "$tmp_general"
+              fi
+            } > wiki/Home.md
+          fi
 
           cd wiki
           if git status --porcelain | grep -q .; then

@@ -27,3 +27,5 @@ GitHub Wiki는 별도 repo로 동작하므로, `docs/` 내용을 자동으로 �
 - `docs/` 폴더 구조를 기반으로 Wiki `_Sidebar.md`가 자동 생성됩니다.
 - `_Sidebar.md` 링크 텍스트는 각 파일의 첫 줄 헤더(`# 제목`)를 사용합니다.
 - `_Sidebar.md`는 API/DB/Setup/General 섹션으로 정렬됩니다.
+- `docs/README.md` 하단에 `Wiki Index` 섹션이 자동 추가됩니다.
+- `docs/.wikiignore`에 경로를 적으면 Wiki 동기화 대상에서 제외됩니다(한 줄에 하나).
