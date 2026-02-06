@@ -27,6 +27,13 @@ frontend/app/
     payments/page.js
     analytics/page.js
     settings/page.js
+  lib/
+    i18n.js               # 텍스트 리소스 로더
+    i18n-client.js        # client hook
+    mockOrders.js         # 목데이터
+  messages/
+    ko.json
+    en.json
 ```
 
 ### 구현된 레이아웃 컴포넌트
@@ -45,8 +52,10 @@ frontend/components/layout/
 ### 현재 특징
 - JS 기반(App Router)
 - 다크모드 토글 구현(로컬스토리지)
-- 다국어는 UI만 존재(실제 i18n 미연동)
+- 다국어 텍스트 리소스 연동(ko/en)
 - 주문 프리뷰/추천/초안 기능은 `/dashboard/orders`에 집중
+- 주문 상세 페이지 UI 확장 (요약/고객/배송/메뉴/히스토리/추천 카드)
+- 주문 검색/필터 UI 추가 (검색어/상태/채널)
 
 ---
 
