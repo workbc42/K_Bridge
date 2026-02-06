@@ -1,9 +1,11 @@
 ﻿'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from '@/lib/i18n-client'
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState('light')
+  const { t } = useTranslations()
 
   useEffect(() => {
     const stored = window.localStorage.getItem('kmeal-theme')
@@ -22,7 +24,7 @@ export default function ThemeToggle() {
 
   return (
     <button type="button" className="header-button" onClick={toggleTheme}>
-      {theme === 'light' ? 'Light' : 'Dark'}
+      {theme === 'light' ? t('theme.light') : t('theme.dark')}
     </button>
   )
 }

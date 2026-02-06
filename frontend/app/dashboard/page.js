@@ -1,9 +1,12 @@
-﻿export default function DashboardHome() {
+﻿import { getTranslations } from '@/lib/i18n'
+
+export default function DashboardHome({ params } = {}) {
+  const { t } = getTranslations(params)
   const metrics = [
-    { label: '오늘 접수', value: '12건', detail: '+8% vs 어제' },
-    { label: '처리 대기', value: '4건', detail: '평균 5분' },
-    { label: '완료', value: '36건', detail: '만족도 4.8/5' },
-    { label: '오늘 매출', value: '₩432,000', detail: '+12%' },
+    { label: t('orders.metrics.today'), value: '12건', detail: t('orders.metrics.todayDetail') },
+    { label: t('orders.metrics.pending'), value: '4건', detail: t('orders.metrics.pendingDetail') },
+    { label: t('orders.metrics.completed'), value: '36건', detail: t('orders.metrics.completedDetail') },
+    { label: t('dashboard.metrics.revenue'), value: '₩432,000', detail: '+12%' }
   ]
 
   return (
@@ -12,14 +15,12 @@
         <header className="dashboard-header">
           <div>
             <p className="section-kicker">Overview</p>
-            <h1 className="section-title mt-2 text-4xl font-semibold">운영 대시보드</h1>
-            <p className="mt-3 text-sm text-[color:var(--muted)]">
-              오늘의 주문 현황과 주요 지표를 확인하세요.
-            </p>
+            <h1 className="section-title mt-2 text-4xl font-semibold">{t('dashboard.title')}</h1>
+            <p className="mt-3 text-sm text-[color:var(--muted)]">{t('dashboard.subtitle')}</p>
           </div>
           <div className="dashboard-actions">
-            <button className="primary-btn">리포트 생성</button>
-            <button className="ghost-btn">필터 설정</button>
+            <button className="primary-btn">{t('actions.report')}</button>
+            <button className="ghost-btn">{t('actions.filter')}</button>
           </div>
         </header>
 
@@ -35,19 +36,19 @@
 
         <section className="dashboard-grid">
           <div className="dashboard-panel">
-            <h3>주문 추이</h3>
+            <h3>{t('dashboard.charts.orderTrend')}</h3>
             <div className="panel-placeholder">Chart Placeholder</div>
           </div>
           <div className="dashboard-panel">
-            <h3>Top 고객</h3>
+            <h3>{t('dashboard.charts.topCustomers')}</h3>
             <div className="panel-placeholder">Chart Placeholder</div>
           </div>
           <div className="dashboard-panel">
-            <h3>인기 메뉴</h3>
+            <h3>{t('dashboard.charts.popularItems')}</h3>
             <div className="panel-placeholder">Chart Placeholder</div>
           </div>
           <div className="dashboard-panel">
-            <h3>운영 효율</h3>
+            <h3>{t('dashboard.charts.efficiency')}</h3>
             <div className="panel-placeholder">Chart Placeholder</div>
           </div>
         </section>

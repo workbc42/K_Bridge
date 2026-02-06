@@ -1,9 +1,11 @@
 ﻿'use client'
 
 import { useState } from 'react'
+import { useTranslations } from '@/lib/i18n-client'
 
 export default function ProfileDropdown() {
   const [open, setOpen] = useState(false)
+  const { t } = useTranslations()
 
   return (
     <div className="header-dropdown">
@@ -12,9 +14,9 @@ export default function ProfileDropdown() {
       </button>
       {open ? (
         <div className="dropdown-menu">
-          <button type="button" className="dropdown-item">Profile</button>
-          <button type="button" className="dropdown-item">Settings</button>
-          <button type="button" className="dropdown-item">Logout</button>
+          <button type="button" className="dropdown-item">{t('profile.profile')}</button>
+          <button type="button" className="dropdown-item">{t('profile.settings')}</button>
+          <button type="button" className="dropdown-item">{t('profile.logout')}</button>
         </div>
       ) : null}
     </div>

@@ -1,0 +1,155 @@
+﻿{
+  "nav": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "customers": "Customers",
+    "payments": "Payments",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "more": "More"
+  },
+  "header": {
+    "menu": "Menu",
+    "searchPlaceholder": "Search orders, customers, menus..."
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "actions": {
+    "newOrder": "Fetch New Orders",
+    "filter": "Filters",
+    "viewDetail": "View Detail",
+    "close": "Close",
+    "undo": "Undo",
+    "backToList": "Back to List",
+    "changeStatus": "Change Status",
+    "export": "Export",
+    "report": "Generate Report",
+    "download": "Download Report"
+  },
+  "orders": {
+    "kicker": "Operations",
+    "title": "Internal Order Intake Dashboard",
+    "subtitle": "Orders received via Manychat are processed here. This is mock data for UI validation.",
+    "metrics": {
+      "today": "Today's Orders",
+      "pending": "Pending",
+      "completed": "Completed",
+      "todayDetail": "Avg. 5 min",
+      "pendingDetail": "SLA within 10 min",
+      "completedDetail": "CSAT 4.8/5"
+    },
+    "channels": {
+      "instagram": "Instagram",
+      "messenger": "Messenger",
+      "other": "Other"
+    },
+    "columns": {
+      "received": "Received",
+      "processing": "Processing",
+      "completed": "Completed"
+    },
+    "columnDesc": {
+      "received": "Newly received orders",
+      "processing": "Order in progress",
+      "completed": "Delivered & closed"
+    },
+    "status": {
+      "received": "Received",
+      "processing": "Processing",
+      "completed": "Completed"
+    },
+    "labels": {
+      "messengerId": "Messenger ID",
+      "total": "Total",
+      "request": "Requests"
+    },
+    "filter": {
+      "title": "Filters",
+      "searchLabel": "Search",
+      "searchPlaceholder": "Customer, order, address, messenger ID",
+      "statusLabel": "Status",
+      "channelLabel": "Channel",
+      "all": "All"
+    },
+    "actions": {
+      "moveToReceived": "Move to Received",
+      "moveToProcessing": "Move to Processing",
+      "moveToCompleted": "Mark Completed"
+    },
+    "modal": {
+      "title": "Order Detail",
+      "status": "Status",
+      "orderDetail": "Order Detail",
+      "address": "Address",
+      "request": "Requests",
+      "total": "Total",
+      "recentOrders": "Recent Orders",
+      "frequentItems": "Frequently Ordered",
+      "requestSuggestions": "Request Suggestions",
+      "applyRecent": "Apply Recent Order",
+      "draftOrder": "Order Draft",
+      "draftRequest": "Request Draft",
+      "detailLink": "Detail Page",
+      "addHint": "Click to add to the order draft."
+    },
+    "detail": {
+      "title": "Order Detail",
+      "summary": "Order Summary",
+      "customer": "Customer",
+      "delivery": "Delivery",
+      "items": "Items",
+      "history": "Recent History",
+      "recommendations": "Recommendations",
+      "receivedAt": "Received at",
+      "customerName": "Customer",
+      "channel": "Channel",
+      "option": "Options",
+      "empty": "Order not found."
+    }
+  },
+  "dashboard": {
+    "title": "Operations Dashboard",
+    "subtitle": "Review today's performance and order status.",
+    "metrics": {
+      "revenue": "Today's Revenue"
+    },
+    "charts": {
+      "orderTrend": "Order Trend",
+      "topCustomers": "Top Customers",
+      "popularItems": "Popular Items",
+      "efficiency": "Ops Efficiency"
+    }
+  },
+  "customers": {
+    "title": "Customers",
+    "subtitle": "Manage customer profiles and history."
+  },
+  "payments": {
+    "title": "Payments",
+    "subtitle": "Payment and settlement overview"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "Order and revenue analytics"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "System settings and configuration"
+  },
+  "profile": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "notifications": {
+    "title": "Notifications"
+  },
+  "toast": {
+    "statusChangedTitle": "{{id}} status updated",
+    "statusChangedSubtitle": "{{customer}} moved to {{status}}.",
+    "undoTitle": "{{id}} change reverted",
+    "undoSubtitle": "Moved back to {{status}}."
+  }
+}

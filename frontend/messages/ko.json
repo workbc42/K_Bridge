@@ -1,0 +1,155 @@
+﻿{
+  "nav": {
+    "dashboard": "대시보드",
+    "orders": "주문 관리",
+    "customers": "고객 관리",
+    "payments": "결제/정산",
+    "analytics": "통계",
+    "settings": "설정",
+    "more": "더보기"
+  },
+  "header": {
+    "menu": "메뉴",
+    "searchPlaceholder": "주문, 고객, 메뉴 검색..."
+  },
+  "theme": {
+    "light": "라이트",
+    "dark": "다크"
+  },
+  "actions": {
+    "newOrder": "신규 주문 가져오기",
+    "filter": "필터 설정",
+    "viewDetail": "상세 보기",
+    "close": "닫기",
+    "undo": "되돌리기",
+    "backToList": "목록으로",
+    "changeStatus": "상태 변경",
+    "export": "내보내기",
+    "report": "리포트 생성",
+    "download": "리포트 다운로드"
+  },
+  "orders": {
+    "kicker": "Operations",
+    "title": "내부 주문 접수 대시보드",
+    "subtitle": "Manychat에서 수신한 주문을 기준으로 운영팀이 처리하는 내부용 화면입니다. 현재는 목데이터로 구성되어 있습니다.",
+    "metrics": {
+      "today": "오늘 접수",
+      "pending": "처리 대기",
+      "completed": "완료",
+      "todayDetail": "평균 처리 5분",
+      "pendingDetail": "SLAs 10분 이내",
+      "completedDetail": "고객 만족 4.8/5"
+    },
+    "channels": {
+      "instagram": "Instagram",
+      "messenger": "Messenger",
+      "other": "Other"
+    },
+    "columns": {
+      "received": "접수",
+      "processing": "처리중",
+      "completed": "완료"
+    },
+    "columnDesc": {
+      "received": "신규 접수된 주문",
+      "processing": "주문 대행 진행",
+      "completed": "배달 완료 및 클로징"
+    },
+    "status": {
+      "received": "접수",
+      "processing": "처리중",
+      "completed": "완료"
+    },
+    "labels": {
+      "messengerId": "메신저 ID",
+      "total": "합계",
+      "request": "요청"
+    },
+    "filter": {
+      "title": "필터",
+      "searchLabel": "검색",
+      "searchPlaceholder": "고객명, 주문내역, 주소, 메신저 ID",
+      "statusLabel": "상태",
+      "channelLabel": "채널",
+      "all": "전체"
+    },
+    "actions": {
+      "moveToReceived": "접수로 이동",
+      "moveToProcessing": "처리중으로 이동",
+      "moveToCompleted": "완료 처리"
+    },
+    "modal": {
+      "title": "주문 상세",
+      "status": "상태",
+      "orderDetail": "주문 내역",
+      "address": "주소",
+      "request": "요청사항",
+      "total": "합계",
+      "recentOrders": "최근 주문",
+      "frequentItems": "자주 주문한 메뉴",
+      "requestSuggestions": "특이사항 추천",
+      "applyRecent": "최근 주문 그대로 적용",
+      "draftOrder": "주문서 초안",
+      "draftRequest": "요청사항 초안",
+      "detailLink": "상세 페이지",
+      "addHint": "클릭하면 주문서 초안에 추가됩니다."
+    },
+    "detail": {
+      "title": "주문 상세",
+      "summary": "주문 요약",
+      "customer": "고객 정보",
+      "delivery": "배송 정보",
+      "items": "메뉴 상세",
+      "history": "최근 주문 히스토리",
+      "recommendations": "추천/특이사항",
+      "receivedAt": "접수 시간",
+      "customerName": "고객명",
+      "channel": "채널",
+      "option": "옵션",
+      "empty": "주문 정보를 찾을 수 없습니다."
+    }
+  },
+  "dashboard": {
+    "title": "운영 대시보드",
+    "subtitle": "오늘의 주문 현황과 주요 지표를 확인하세요.",
+    "metrics": {
+      "revenue": "오늘 매출"
+    },
+    "charts": {
+      "orderTrend": "주문 추이",
+      "topCustomers": "Top 고객",
+      "popularItems": "인기 메뉴",
+      "efficiency": "운영 효율"
+    }
+  },
+  "customers": {
+    "title": "고객 관리",
+    "subtitle": "고객 목록과 주문 히스토리를 관리합니다."
+  },
+  "payments": {
+    "title": "결제/정산",
+    "subtitle": "결제 내역 및 정산 관리"
+  },
+  "analytics": {
+    "title": "통계",
+    "subtitle": "주문 및 매출 분석"
+  },
+  "settings": {
+    "title": "설정",
+    "subtitle": "시스템 설정 및 환경 구성"
+  },
+  "profile": {
+    "profile": "프로필",
+    "settings": "설정",
+    "logout": "로그아웃"
+  },
+  "notifications": {
+    "title": "알림"
+  },
+  "toast": {
+    "statusChangedTitle": "{{id}} 상태 변경",
+    "statusChangedSubtitle": "{{customer}} · {{status}}로 이동했습니다.",
+    "undoTitle": "{{id}} 변경 취소",
+    "undoSubtitle": "{{status}} 상태로 되돌렸습니다."
+  }
+}

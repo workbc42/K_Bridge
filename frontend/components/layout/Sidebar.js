@@ -3,25 +3,21 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
-const locales = ['ko', 'en', 'th', 'vi', 'zh']
+import { useTranslations } from '@/lib/i18n-client'
 
 const navItems = [
-  { key: 'dashboard', label: 'Dashboard', href: '/dashboard' },
-  { key: 'orders', label: 'Orders', href: '/dashboard/orders', badge: 4 },
-  { key: 'customers', label: 'Customers', href: '/dashboard/customers' },
-  { key: 'payments', label: 'Payments', href: '/dashboard/payments' },
-  { key: 'analytics', label: 'Analytics', href: '/dashboard/analytics' },
-  { key: 'settings', label: 'Settings', href: '/dashboard/settings' },
+  { key: 'dashboard', labelKey: 'nav.dashboard', href: '/dashboard' },
+  { key: 'orders', labelKey: 'nav.orders', href: '/dashboard/orders', badge: 4 },
+  { key: 'customers', labelKey: 'nav.customers', href: '/dashboard/customers' },
+  { key: 'payments', labelKey: 'nav.payments', href: '/dashboard/payments' },
+  { key: 'analytics', labelKey: 'nav.analytics', href: '/dashboard/analytics' },
+  { key: 'settings', labelKey: 'nav.settings', href: '/dashboard/settings' },
 ]
 
 export default function Sidebar() {
   const pathname = usePathname()
+  const { t, basePath } = useTranslations()
   const [collapsed, setCollapsed] = useState(false)
-
-  const segments = pathname.split('/').filter(Boolean)
-  const locale = locales.includes(segments[0]) ? segments[0] : null
-  const basePath = locale ? `/${locale}` : ''
 
   useEffect(() => {
     const stored = window.localStorage.getItem('kmeal-sidebar')
@@ -61,7 +57,7 @@ export default function Sidebar() {
               <li key={item.key}>
                 <Link className={`sidebar-link${isActive ? ' is-active' : ''}`} href={href}>
                   <span className="sidebar-dot" />
-                  <span className="sidebar-label">{item.label}</span>
+                  <span className="sidebar-label">{t(item.labelKey)}</span>
                   {item.badge ? <span className="sidebar-badge">{item.badge}</span> : null}
                 </Link>
               </li>

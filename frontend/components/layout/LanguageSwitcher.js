@@ -2,14 +2,20 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { supportedLocales } from '@/lib/i18n'
 
-const languages = [
-  { code: 'ko', label: 'KO' },
-  { code: 'en', label: 'EN' },
-  { code: 'th', label: 'TH' },
-  { code: 'vi', label: 'VI' },
-  { code: 'zh', label: 'ZH' },
-]
+const languageLabels = {
+  ko: 'KO',
+  en: 'EN',
+  th: 'TH',
+  vi: 'VI',
+  zh: 'ZH',
+}
+
+const languages = supportedLocales.map((code) => ({
+  code,
+  label: languageLabels[code] || code.toUpperCase(),
+}))
 
 export default function LanguageSwitcher() {
   const pathname = usePathname()
