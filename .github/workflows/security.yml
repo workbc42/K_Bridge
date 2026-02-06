@@ -1,0 +1,16 @@
+name: Security Scan
+on:
+  schedule:
+    - cron: '0 2 * * 1'  # 매주 월요일
+  push:
+    paths: ['package.json', 'requirements.txt']
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    permissions: { security-events: write }
+    steps:
+    - uses: actions/checkout@v4
+    - uses: github/codeql-action/init@v3
+      with: { languages: javascript,python }
+    - uses: github/codeql-action/analyze@v3
