@@ -33,8 +33,8 @@ jobs:
           WIKI_REPO="https://x-access-token:${GH_TOKEN}@github.com/${REPO}.wiki.git"
 
           git clone "$WIKI_REPO" wiki
-          rm -rf wiki/*
-          rsync -av --delete docs/ wiki/
+          # Keep wiki repo metadata; rsync deletes anything not excluded.
+          rsync -av --delete --exclude '.git' docs/ wiki/
 
           # Home.md from docs/README.md
           if [ -f docs/README.md ]; then
