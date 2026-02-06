@@ -42,6 +42,14 @@ backend/
 - `GET /api/orders/:id`
   - `controllers/orderController.getById`
 
+### Recommendations
+- `GET /api/customers/:id/recent-orders`
+  - `controllers/orderController.getRecentByCustomer`
+- `GET /api/customers/:id/recommendations`
+  - `controllers/orderController.getRecommendations`
+- `POST /api/orders/reorder`
+  - `controllers/orderController.reorder`
+
 ### System
 - `GET /api`
   - API 상태 확인

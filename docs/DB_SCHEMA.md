@@ -3,6 +3,7 @@
 ## 기준
 - **PostgreSQL** 기준 스키마
 - 마이그레이션 파일: `database/migrations/001_init.sql`
+- 확장 마이그레이션: `database/migrations/002_add_recommendation_features.sql`
 
 ## 테이블 요약
 ### users

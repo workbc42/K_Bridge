@@ -193,7 +193,18 @@ function OrderCard({ order, onOpen, isMoved }) {
   )
 }
 
-function OrderModal({ order, onClose, onStatusChange }) {
+function OrderModal({
+  order,
+  onClose,
+  onStatusChange,
+  draftDetail,
+  draftRequest,
+  onDraftDetailChange,
+  onDraftRequestChange,
+  onApplyRecent,
+  onAppendItem,
+  onApplyRequest,
+}) {
   if (!order) return null
 
   return (
@@ -243,25 +254,61 @@ function OrderModal({ order, onClose, onStatusChange }) {
             <p className="modal-label">최근 주문</p>
             <ul className="insight-list">
               {(order.recentSummary || []).slice(0, 3).map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item}>
+                  <button type="button" className="insight-action" onClick={() => onApplyRecent(item)}>
+                    {item}
+                  </button>
+                </li>
               ))}
             </ul>
+            <button type="button" className="insight-cta" onClick={() => onApplyRecent(order.orderDetail)}>
+              최근 주문 그대로 적용
+            </button>
           </div>
           <div className="insight-card">
             <p className="modal-label">자주 주문한 메뉴</p>
             <ul className="insight-list">
               {(order.topItems || []).slice(0, 3).map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item}>
+                  <button type="button" className="insight-action" onClick={() => onAppendItem(item)}>
+                    {item}
+                  </button>
+                </li>
               ))}
             </ul>
+            <p className="insight-hint">클릭하면 주문서 초안에 추가됩니다.</p>
           </div>
           <div className="insight-card">
             <p className="modal-label">특이사항 추천</p>
             <ul className="insight-list">
               {(order.suggestedRequests || []).slice(0, 3).map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item}>
+                  <button type="button" className="insight-action" onClick={() => onApplyRequest(item)}>
+                    {item}
+                  </button>
+                </li>
               ))}
             </ul>
+          </div>
+        </div>
+        <div className="draft-panel">
+          <div>
+            <p className="modal-label">주문서 초안</p>
+            <textarea
+              className="draft-input"
+              rows={3}
+              value={draftDetail}
+              onChange={(event) => onDraftDetailChange(event.target.value)}
+            />
+          </div>
+          <div>
+            <p className="modal-label">요청사항 초안</p>
+            <textarea
+              className="draft-input"
+              rows={2}
+              value={draftRequest}
+              onChange={(event) => onDraftRequestChange(event.target.value)}
+            />
           </div>
         </div>
         <div className="modal-footer">
@@ -307,8 +354,16 @@ export default function Home() {
   const [toast, setToast] = useState(null)
   const [movedOrderId, setMovedOrderId] = useState(null)
   const [lastChange, setLastChange] = useState(null)
+  const [draftDetail, setDraftDetail] = useState('')
+  const [draftRequest, setDraftRequest] = useState('')
 
   const selectedOrder = orders.find((order) => order.id === selectedOrderId)
+
+  useEffect(() => {
+    if (!selectedOrder) return
+    setDraftDetail(selectedOrder.orderDetail || '')
+    setDraftRequest(selectedOrder.request || '')
+  }, [selectedOrder])
 
   useEffect(() => {
     if (!selectedOrderId) return
@@ -372,6 +427,19 @@ export default function Home() {
       subtitle: `${lastChange.previousStatus} 상태로 되돌렸습니다.`,
     })
     setLastChange(null)
+  }
+
+  const handleApplyRecent = (text) => {
+    setDraftDetail(text || '')
+  }
+
+  const handleAppendItem = (item) => {
+    if (!item) return
+    setDraftDetail((prev) => (prev ? `${prev}, ${item}` : item))
+  }
+
+  const handleApplyRequest = (text) => {
+    setDraftRequest(text || '')
   }
 
   return (
@@ -447,6 +515,13 @@ export default function Home() {
           handleStatusChange(orderId, status)
           setSelectedOrderId(orderId)
         }}
+        draftDetail={draftDetail}
+        draftRequest={draftRequest}
+        onDraftDetailChange={setDraftDetail}
+        onDraftRequestChange={setDraftRequest}
+        onApplyRecent={handleApplyRecent}
+        onAppendItem={handleAppendItem}
+        onApplyRequest={handleApplyRequest}
       />
       <Toast toast={toast} onClose={() => setToast(null)} onUndo={handleUndo} />
     </div>
