@@ -261,9 +261,28 @@ body {
   margin-bottom: 4px;
 }
 
+.intent-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(42, 91, 94, 0.12);
+  color: var(--accent-2);
+  margin-bottom: 6px;
+}
+
 .order-detail {
   font-size: 0.8rem;
   color: var(--accent-2);
+}
+
+.order-history {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 6px;
 }
 
 .order-address {
@@ -416,6 +435,40 @@ body {
   gap: 12px;
 }
 
+.modal-insights {
+  display: grid;
+  gap: 12px;
+}
+
+.insight-card {
+  border-radius: 16px;
+  border: 1px solid rgba(42, 91, 94, 0.12);
+  padding: 12px 14px;
+  background: rgba(241, 231, 219, 0.5);
+}
+
+.insight-list {
+  margin-top: 8px;
+  display: grid;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--foreground);
+}
+
+.insight-list li {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.insight-list li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
 .modal-label {
   font-size: 0.7rem;
   text-transform: uppercase;
@@ -540,5 +593,9 @@ body {
 
   .modal-body {
     grid-template-columns: 1.1fr 1fr;
+  }
+
+  .modal-insights {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

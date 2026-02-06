@@ -14,6 +14,10 @@ const initialOrders = [
     total: '13,000원',
     time: '14:32',
     thumbTone: 'tone-1',
+    intentTag: '재주문',
+    recentSummary: ['김치찌개 x1, 공기밥 x1', '제육볶음 x1', '순두부찌개 x1'],
+    topItems: ['김치찌개', '공기밥', '콜라'],
+    suggestedRequests: ['덜 맵게', '문 앞에 두고 문자'],
   },
   {
     id: 'ORD-2402',
@@ -26,6 +30,10 @@ const initialOrders = [
     total: '21,000원',
     time: '14:40',
     thumbTone: 'tone-2',
+    intentTag: '추천',
+    recentSummary: ['짜장면 x1', '짬뽕 x1', '탕수육(소) x1'],
+    topItems: ['짜장면', '탕수육(소)', '짬뽕'],
+    suggestedRequests: ['계단 X, 엘리베이터 사용'],
   },
   {
     id: 'ORD-2403',
@@ -38,6 +46,10 @@ const initialOrders = [
     total: '16,500원',
     time: '14:18',
     thumbTone: 'tone-3',
+    intentTag: null,
+    recentSummary: ['닭갈비 x1', '치즈 추가', '볶음밥 x1'],
+    topItems: ['닭갈비', '치즈 추가'],
+    suggestedRequests: ['덜 맵게'],
   },
   {
     id: 'ORD-2404',
@@ -50,6 +62,10 @@ const initialOrders = [
     total: '24,000원',
     time: '14:12',
     thumbTone: 'tone-4',
+    intentTag: '추천',
+    recentSummary: ['쌀국수 x2', '짜조 x1', '분짜 x1'],
+    topItems: ['쌀국수', '짜조', '분짜'],
+    suggestedRequests: ['포크 추가'],
   },
   {
     id: 'ORD-2405',
@@ -62,6 +78,10 @@ const initialOrders = [
     total: '36,000원',
     time: '13:40',
     thumbTone: 'tone-5',
+    intentTag: '재주문',
+    recentSummary: ['족발(중) x1', '막국수 x1', '보쌈(중) x1'],
+    topItems: ['족발(중)', '막국수', '보쌈(중)'],
+    suggestedRequests: ['벨 눌러주세요'],
   },
   {
     id: 'ORD-2406',
@@ -74,6 +94,10 @@ const initialOrders = [
     total: '18,000원',
     time: '13:22',
     thumbTone: 'tone-6',
+    intentTag: null,
+    recentSummary: ['샐러드 x1', '샌드위치 x1'],
+    topItems: ['샐러드', '샌드위치'],
+    suggestedRequests: ['젓가락 2개'],
   },
 ]
 
@@ -141,7 +165,11 @@ function OrderCard({ order, onOpen, isMoved }) {
         </div>
         <div>
           <p className="order-name">{order.customer}</p>
+          {order.intentTag ? <span className="intent-tag">{order.intentTag}</span> : null}
           <p className="order-detail">{order.orderDetail}</p>
+          {order.recentSummary?.[0] ? (
+            <p className="order-history">최근 주문: {order.recentSummary[0]}</p>
+          ) : null}
           <p className="order-address">{order.address}</p>
         </div>
       </div>
@@ -208,6 +236,32 @@ function OrderModal({ order, onClose, onStatusChange }) {
               <p className="modal-label">합계</p>
               <p className="modal-text">{order.total}</p>
             </div>
+          </div>
+        </div>
+        <div className="modal-insights">
+          <div className="insight-card">
+            <p className="modal-label">최근 주문</p>
+            <ul className="insight-list">
+              {(order.recentSummary || []).slice(0, 3).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="insight-card">
+            <p className="modal-label">자주 주문한 메뉴</p>
+            <ul className="insight-list">
+              {(order.topItems || []).slice(0, 3).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="insight-card">
+            <p className="modal-label">특이사항 추천</p>
+            <ul className="insight-list">
+              {(order.suggestedRequests || []).slice(0, 3).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
         </div>
         <div className="modal-footer">
