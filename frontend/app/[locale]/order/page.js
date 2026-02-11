@@ -1,4 +1,4 @@
-'use client'
+ï»¿'use client'
 
 import { useMemo, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
@@ -42,7 +42,7 @@ export default function OrderPage() {
       reset()
     },
     onError: (error) => {
-      setSubmitError(error?.response?.data?.message || 'ÁÖ¹® »ı¼º¿¡ ½ÇÆĞÇß½À´Ï´Ù.')
+      setSubmitError(error?.response?.data?.message || 'ì£¼ë¬¸ ìƒì„±ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.')
     },
   })
 
@@ -58,7 +58,7 @@ export default function OrderPage() {
 
     const validated = orderCreateSchema.safeParse(payload)
     if (!validated.success) {
-      const message = validated.error.issues[0]?.message || 'ÀÔ·Â°ªÀ» È®ÀÎÇÏ¼¼¿ä.'
+      const message = validated.error.issues[0]?.message || 'ì…ë ¥ê°’ì„ í™•ì¸í•˜ì„¸ìš”.'
       setSubmitError(message)
       return
     }
@@ -79,7 +79,7 @@ export default function OrderPage() {
           <div>
             <p className="section-kicker">Order</p>
             <h1 className="section-title mt-2 text-4xl font-semibold">Create Order</h1>
-            <p className="mt-3 text-sm text-[color:var(--muted)]">MVP ÁÖ¹® »ı¼º ÆûÀÔ´Ï´Ù.</p>
+            <p className="mt-3 text-sm text-[color:var(--muted)]">MVP ì£¼ë¬¸ ìƒì„± í¼ì…ë‹ˆë‹¤.</p>
           </div>
           <a className="ghost-btn" href={`${basePath}/dashboard/orders`}>
             Back to Orders
@@ -95,7 +95,7 @@ export default function OrderPage() {
             </label>
             <label className="filter-field">
               Address
-              <input {...register('deliveryAddress')} placeholder="¼­¿ï½Ã °­³²±¸ ..." />
+              <input {...register('deliveryAddress')} placeholder="ì„œìš¸ì‹œ ê°•ë‚¨êµ¬ ..." />
             </label>
             <label className="filter-field">
               Menu (comma separated)
@@ -107,7 +107,7 @@ export default function OrderPage() {
             </label>
             <label className="filter-field">
               Notes
-              <textarea rows={3} {...register('notes')} placeholder="¹® ¾Õ¿¡ µÎ°í º§ ´­·¯ÁÖ¼¼¿ä" />
+              <textarea rows={3} {...register('notes')} placeholder="ë¬¸ ì•ì— ë‘ê³  ë²¨ ëˆŒëŸ¬ì£¼ì„¸ìš”" />
             </label>
 
             {submitError ? <p className="text-sm text-red-500">{submitError}</p> : null}
@@ -148,3 +148,4 @@ export default function OrderPage() {
     </div>
   )
 }
+

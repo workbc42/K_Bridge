@@ -1,14 +1,15 @@
-import { z } from 'zod'
+ï»¿import { z } from 'zod'
 
 export const orderItemSchema = z.object({
-  name: z.string().min(1, '¸Ş´º¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä.'),
-  quantity: z.coerce.number().int().min(1, '¼ö·®Àº 1 ÀÌ»óÀÌ¾î¾ß ÇÕ´Ï´Ù.'),
+  name: z.string().min(1, 'ë©”ë‰´ëª…ì„ ì…ë ¥í•˜ì„¸ìš”.'),
+  quantity: z.coerce.number().int().min(1, 'ìˆ˜ëŸ‰ì€ 1 ì´ìƒì´ì–´ì•¼ í•©ë‹ˆë‹¤.'),
 })
 
 export const orderCreateSchema = z.object({
-  restaurantName: z.string().min(1, '°¡°Ô¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä.'),
-  deliveryAddress: z.string().min(5, '¹è´Ş ÁÖ¼Ò¸¦ ÀÔ·ÂÇÏ¼¼¿ä.'),
+  restaurantName: z.string().min(1, 'ê°€ê²Œëª…ì„ ì…ë ¥í•˜ì„¸ìš”.'),
+  deliveryAddress: z.string().min(5, 'ë°°ë‹¬ ì£¼ì†Œë¥¼ ì…ë ¥í•˜ì„¸ìš”.'),
   notes: z.string().optional(),
-  menuItems: z.array(orderItemSchema).min(1, 'ÃÖ¼Ò 1°³ ¸Ş´º°¡ ÇÊ¿äÇÕ´Ï´Ù.'),
+  menuItems: z.array(orderItemSchema).min(1, 'ìµœì†Œ 1ê°œ ë©”ë‰´ê°€ í•„ìš”í•©ë‹ˆë‹¤.'),
   totalPrice: z.coerce.number().int().nonnegative(),
 })
+
