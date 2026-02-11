@@ -14,10 +14,9 @@ const navItems = [
 ]
 
 export default function MobileDrawer({ open, onClose }) {
-  if (!open) return null
-
   const pathname = usePathname()
   const { t, basePath } = useTranslations()
+  if (!open) return null
 
   return (
     <div className="drawer-overlay" onClick={onClose}>

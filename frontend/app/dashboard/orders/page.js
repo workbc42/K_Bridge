@@ -319,12 +319,6 @@ export default function OrdersPage() {
   }, [orders, query, statusFilter, channelFilter])
 
   useEffect(() => {
-    if (!selectedOrder) return
-    setDraftDetail(selectedOrder.orderDetail || '')
-    setDraftRequest(selectedOrder.request || '')
-  }, [selectedOrder])
-
-  useEffect(() => {
     if (!selectedOrderId) return
 
     const handleKeyDown = (event) => {
@@ -402,6 +396,12 @@ export default function OrdersPage() {
 
   const handleApplyRequest = (text) => {
     setDraftRequest(text || '')
+  }
+
+  const handleOpenOrder = (order) => {
+    setSelectedOrderId(order.id)
+    setDraftDetail(order.orderDetail || '')
+    setDraftRequest(order.request || '')
   }
 
   return (
@@ -488,7 +488,7 @@ export default function OrdersPage() {
                       key={order.id}
                       order={order}
                       isMoved={order.id === movedOrderId}
-                      onOpen={(data) => setSelectedOrderId(data.id)}
+                      onOpen={handleOpenOrder}
                       t={t}
                     />
                   ))}

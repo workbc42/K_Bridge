@@ -17,17 +17,13 @@ const navItems = [
 export default function Sidebar() {
   const pathname = usePathname()
   const { t, basePath } = useTranslations()
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(
+    () => typeof window !== 'undefined' && window.localStorage.getItem('kmeal-sidebar') === 'collapsed',
+  )
 
   useEffect(() => {
-    const stored = window.localStorage.getItem('kmeal-sidebar')
-    if (stored === 'collapsed') {
-      setCollapsed(true)
-      document.documentElement.setAttribute('data-sidebar', 'collapsed')
-    } else {
-      document.documentElement.setAttribute('data-sidebar', 'expanded')
-    }
-  }, [])
+    document.documentElement.setAttribute('data-sidebar', collapsed ? 'collapsed' : 'expanded')
+  }, [collapsed])
 
   const toggleCollapsed = () => {
     const next = !collapsed

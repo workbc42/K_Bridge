@@ -4,22 +4,20 @@ import { useEffect, useState } from 'react'
 import { useTranslations } from '@/lib/i18n-client'
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') return 'light'
+    return window.localStorage.getItem('kmeal-theme') || 'light'
+  })
   const { t } = useTranslations()
 
   useEffect(() => {
-    const stored = window.localStorage.getItem('kmeal-theme')
-    if (stored) {
-      setTheme(stored)
-      document.documentElement.setAttribute('data-theme', stored)
-    }
-  }, [])
+    document.documentElement.setAttribute('data-theme', theme)
+    window.localStorage.setItem('kmeal-theme', theme)
+  }, [theme])
 
   const toggleTheme = () => {
     const next = theme === 'light' ? 'dark' : 'light'
     setTheme(next)
-    document.documentElement.setAttribute('data-theme', next)
-    window.localStorage.setItem('kmeal-theme', next)
   }
 
   return (
