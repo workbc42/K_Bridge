@@ -1,8 +1,22 @@
 ﻿# Backend
 
-Express.js 기반 백엔드 API
+Express.js backend API for K-Meal Bridge.
 
-## Coming Soon
-- RESTful API
-- 인증 시스템
-- 데이터베이스 연동
+## Setup
+1. Copy env template:
+   - `cp .env.example .env` (Windows: duplicate file manually)
+2. Set PostgreSQL connection in `.env`
+
+## Commands
+- Dev server: `npm run dev`
+- Start: `npm start`
+- Migrate DB: `npm run migrate`
+
+## API
+- Base path: `/api`
+- Health: `GET /api/health`
+- Orders:
+  - `GET /api/orders`
+  - `POST /api/orders`
+  - `GET /api/orders/:id`
+  - `PATCH /api/orders/:id/status`

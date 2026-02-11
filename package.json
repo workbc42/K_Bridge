@@ -6,6 +6,9 @@
     "dev": "npm run dev:frontend & npm run dev:backend",
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && npm run dev",
+    "migrate:backend": "npm --prefix backend run migrate",
+    "doctor:backend-db": "npm --prefix backend run db:doctor",
+    "smoke:orders": "npm --prefix backend run smoke:orders",
     "build": "npm run build:frontend && npm run build:backend",
     "build:frontend": "npm --prefix frontend ci && npm --prefix frontend run build",
     "build:backend": "npm --prefix backend ci && npm --prefix backend run build",
@@ -32,5 +35,11 @@
   "bugs": {
     "url": "https://github.com/STH-1-Class-One-Group/K_Bridge/issues"
   },
-  "homepage": "https://github.com/STH-1-Class-One-Group/K_Bridge#readme"
+  "homepage": "https://github.com/STH-1-Class-One-Group/K_Bridge#readme",
+  "devDependencies": {
+    "eslint": "^10.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1"
+  }
 }

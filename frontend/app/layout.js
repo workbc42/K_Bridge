@@ -1,5 +1,6 @@
-﻿import './globals.css'
+import './globals.css'
 import { Sora, Newsreader } from 'next/font/google'
+import AppProviders from '@/components/providers/AppProviders'
 
 const sora = Sora({
   subsets: ['latin'],
@@ -21,7 +22,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${sora.variable} ${newsreader.variable}`}>{children}</body>
+      <body className={`${sora.variable} ${newsreader.variable}`}>
+        <AppProviders>{children}</AppProviders>
+      </body>
     </html>
   )
 }

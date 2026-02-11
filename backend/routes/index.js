@@ -1,4 +1,5 @@
 ﻿const express = require('express');
+const { pool } = require('../db/pool');
 
 const authRoutes = require('./auth');
 const restaurantRoutes = require('./restaurants');
@@ -10,8 +11,18 @@ router.get('/', (req, res) => {
   res.json({ message: 'K-Meal Bridge API is running!' });
 });
 
-router.get('/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+router.get('/health', async (req, res) => {
+  try {
+    await pool.query('SELECT 1');
+    res.json({ status: 'OK', db: 'UP', timestamp: new Date().toISOString() });
+  } catch (error) {
+    res.status(500).json({
+      status: 'ERROR',
+      db: 'DOWN',
+      message: error.message,
+      timestamp: new Date().toISOString(),
+    });
+  }
 });
 
 router.use('/auth', authRoutes);
