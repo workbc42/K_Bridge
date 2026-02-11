@@ -98,6 +98,27 @@
 ### Why this branch
 - Orders are the operational core; persistence is required before auth/payment production hardening.
 
+## 2026-02-11 - Branch Point 4.1: CI Stabilization (Test/Build)
+
+### Decision
+- Align GitHub Actions workflows with current repository structure and remove non-applicable steps.
+
+### Applied Changes
+- Fixed workflow mismatch:
+  - `.github/workflows/ci.yml`
+  - removed `npm test` and Python test steps
+- Fixed build artifact path:
+  - `.github/workflows/build-deploy.yml`
+  - `dist/` -> `frontend/.next/`
+- Fixed UTF-8 parsing failures for frontend build:
+  - `frontend/app/[locale]/order/page.js`
+  - `frontend/lib/schemas/order.js`
+- Added dedicated fix report:
+  - `docs/CI_BUILD_TEST_FIX_2026-02-11.md`
+
+### Why this branch
+- CI signal must be reliable before moving to Branch Point 5 (Auth).
+
 ## Next planned branch points
 - Branch Point 5: Auth (JWT + Google/Kakao OAuth)
 - Branch Point 6: Payment (Toss) integration skeleton

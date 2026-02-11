@@ -6,9 +6,15 @@
 - API 스펙: `API.md`
 - API 라우트 구조: `API_ROUTES.md`
 - DB 스키마: `DB_SCHEMA.md`
+- PostgreSQL 영속화 런북: `POSTGRES_PERSISTENCE.md`
+- Windows 로컬 PostgreSQL 설치 가이드: `LOCAL_POSTGRES_SETUP_WINDOWS.md`
 - 요구사항: `REQUIREMENTS.md`
 - 프론트 디자인: `FRONTEND_DESIGN.md`
+- Stitch 디자인 핸드오프: `STITCH_DASHBOARD_HANDOFF.md`
 - 인코딩 가이드: `ENCODING.md`
+- 개발 분기 로그: `DEV_BRANCH_LOG.md`
+- 오늘 문서 상태 요약: `TODAY_MD_STATUS_2026-02-11.md`
+- CI/Build/Test 오류 수정 리포트: `CI_BUILD_TEST_FIX_2026-02-11.md`
 - 기타: `ARCHITECTURE.md`, `DEPLOYMENT.md`, `SETUP.md`, `FAQ.md`
 
 ## Wiki 동기화
