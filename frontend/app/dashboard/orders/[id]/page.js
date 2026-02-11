@@ -2,9 +2,10 @@
 import { getTranslations } from '@/lib/i18n'
 import { mockOrders } from '@/lib/mockOrders'
 
-export default function OrderDetailPage({ params } = {}) {
-  const { t, basePath } = getTranslations(params)
-  const id = params?.id
+export default async function OrderDetailPage({ params } = {}) {
+  const resolvedParams = params ? await params : undefined
+  const { t, basePath } = getTranslations(resolvedParams)
+  const id = resolvedParams?.id
   const order = mockOrders.find((item) => item.id === id)
 
   if (!order) {

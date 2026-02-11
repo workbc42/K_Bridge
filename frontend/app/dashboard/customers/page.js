@@ -1,7 +1,8 @@
 ﻿import { getTranslations } from '@/lib/i18n'
 
-export default function CustomersPage({ params } = {}) {
-  const { t } = getTranslations(params)
+export default async function CustomersPage({ params } = {}) {
+  const resolvedParams = params ? await params : undefined
+  const { t } = getTranslations(resolvedParams)
 
   return (
     <div className="page-container">

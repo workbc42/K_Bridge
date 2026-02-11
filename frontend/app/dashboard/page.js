@@ -1,7 +1,8 @@
 ﻿import { getTranslations } from '@/lib/i18n'
 
-export default function DashboardHome({ params } = {}) {
-  const { t } = getTranslations(params)
+export default async function DashboardHome({ params } = {}) {
+  const resolvedParams = params ? await params : undefined
+  const { t } = getTranslations(resolvedParams)
   const metrics = [
     { label: t('orders.metrics.today'), value: '12건', detail: t('orders.metrics.todayDetail') },
     { label: t('orders.metrics.pending'), value: '4건', detail: t('orders.metrics.pendingDetail') },
