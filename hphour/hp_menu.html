@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>태국 음식점 메뉴</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            color: #d63384;
+        }
+        .header h1 { 
+            font-size: 2.5em; 
+            margin-bottom: 10px; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .search-box {
+            max-width: 500px; margin: 0 auto 30px; position: relative;
+        }
+        .search-box input {
+            width: 100%; padding: 15px 50px 15px 20px; font-size: 16px;
+            border: 3px solid #ff69b4; border-radius: 50px; outline: none;
+            background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .search-btn {
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+            background: #ff1493; color: white; border: none; border-radius: 50%;
+            width: 40px; height: 40px; cursor: pointer;
+        }
+        .tabs { 
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; 
+            margin-bottom: 30px;
+        }
+        .tab-btn {
+            padding: 12px 24px; background: rgba(255,255,255,0.8);
+            border: 2px solid #ff69b4; border-radius: 30px; cursor: pointer;
+            font-weight: bold; transition: all 0.3s; font-size: 14px;
+        }
+        .tab-btn.active { background: #ff69b4; color: white; }
+        .menu-section { display: none; }
+        .menu-section.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .menu-grid { 
+            display: grid; gap: 20px; max-width: 1200px; margin: 0 auto;
+        }
+        .menu-item {
+            background: white; border-radius: 20px; padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.3s;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .menu-item:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .menu-info h3 { 
+            color: #d63384; font-size: 1.3em; margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .thai { font-size: 1.1em; color: #ff69b4; margin-bottom: 5px; }
+        .desc { color: #666; margin-bottom: 15px; line-height: 1.4; }
+        .price { 
+            font-size: 1.5em; font-weight: bold; color: #28a745;
+            background: #d4edda; padding: 10px 20px; border-radius: 30px;
+            min-width: 80px; text-align: center;
+        }
+        @media (max-width: 768px) {
+            .menu-item { flex-direction: column; text-align: center; gap: 15px; }
+            .header h1 { font-size: 2em; }
+        }
+        .empty { text-align: center; color: #999; padding: 50px; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌶️ 태국 음식점 메뉴</h1>
+        <p>본사원의 정통 태국 요리</p>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="메뉴 검색 (예: 팟카파오, 똠얌)">
+        <button class="search-btn">🔍</button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-category="all">전체</button>
+        <button class="tab-btn" data-category="덮밥류">덮밥</button>
+        <button class="tab-btn" data-category="메인 요리">메인요리</button>
+        <button class="tab-btn" data-category="면 요리">면요리</button>
+        <button class="tab-btn" data-category="찌개/국/커리">찌개</button>
+        <button class="tab-btn" data-category="쏨땀">쏨땀</button>
+        <button class="tab-btn" data-category="이싼 음식">이싼</button>
+        <button class="tab-btn" data-category="얌">얌</button>
+        <button class="tab-btn" data-category="튀김/구이">튀김</button>
+        <button class="tab-btn" data-category="쌈 / 샤브샤브 / 무카타">쌈/샤브</button>
+        <button class="tab-btn" data-category="스페셜 메뉴">스페셜</button>
+        <button class="tab-btn" data-category="간식 / 디저트">디저트</button>
+        <button class="tab-btn" data-category="음료">음료</button>
+    </div>
+
+    <div id="menuContainer">
+        <!-- 메뉴 데이터는 JavaScript에서 동적 생성 -->
+    </div>
+
+    <script>
+        // 엑셀 데이터 기반 메뉴 배열 (전체 144개 메뉴)
+        const menuData = [
+            { name: "팟카파오 무쌉/가이", thai: "ผัดกะเพราหมูสับ/ไก่", desc: "돼지고기/닭고기 바질 볶음 덮밥", category: "덮밥류", price: 12000 },
+            { name: "팟카파오 느아", thai: "ผัดกะเพราเนื้อ", desc: "소고기 바질 볶음 덮밥", category: "덮밥류", price: 13000 },
+            { name: "팟카파오 탈레", thai: "ผัดกะเพราทะเล", desc: "해산물 바질 볶음 덮밥", category: "덮밥류", price: 15000 },
+            { name: "카오 팟 무", thai: "ข้าวผัดหมู", desc: "돼지고기 볶음밥", category: "덮밥류", price: 12000 },
+            { name: "카오 팟 꿍", thai: "ข้าวผัดกุ้ง", desc: "새우 볶음밥", category: "덮밥류", price: 15000 },
+            { name: "카오 팟 탈레", thai: "ข้าวผัดทะเล", desc: "해산물 볶음밥", category: "덮밥류", price: 15000 },
+            { name: "카오 무 팟 프릭깽 따이", thai: "ข้าวหมูผัดพริกแกงใต้", desc: "남부식 돼지고기 레드커리 덮밥", category: "덮밥류", price: 12000 },
+            { name: "카오 탈레 팟 프릭깽 따이", thai: "ข้าวทะเลผัดพริกแกงใต้", desc: "남부식 해산물 레드커리 덮밥", category: "덮밥류", price: 15000 },
+            { name: "카오 팟 프릭깽 무껍", thai: "ข้าวผัดพริกแกงหมูกรอบ", desc: "삼겹살 튀김 레드커리 덮밥", category: "덮밥류", price: 15000 },
+            { name: "카오 팟 프릭깽 탈레", thai: "ข้าวผัดพริกแกงทะเล", desc: "해산물 레드커리 볶음 덮밥", category: "덮밥류", price: 15000 },
+            { name: "카오 카나 무막", thai: "ข้าวคะน้าหมูหมัก", desc: "케일 돼지고기 볶음 덮밥", category: "덮밥류", price: 12000 },
+            { name: "카오 무텃 크라티얌", thai: "ข้าวหมูทอดกระเทียม", desc: "돼지고기 마늘 튀김 덮밥", category: "덮밥류", price: 12000 },
+            { name: "팟카파오 무쌉/가이", thai: "ผัดกะเพราหมูสับ/ไก่", desc: "돼지고기/닭고기 바질 볶음 - 요리", category: "메인 요리", price: 12000 },
+            { name: "팟카파오 느아 막", thai: "ผัดกะเพราเนื้อหมาก", desc: "숙성 소고기 바질 볶음", category: "메인 요리", price: 13000 },
+            { name: "팟카파오 탈레", thai: "ผัดกะเพราทะเล", desc: "해산물 바질 볶음", category: "메인 요리", price: 15000 },
+            { name: "무 팟 프릭깽 따이", thai: "หมูผัดพริกแกงใต้", desc: "남부식 돼지고기 레드커리 볶음", category: "메인 요리", price: 12000 },
+            { name: "탈레 팟 프릭깽 따이", thai: "ทะเลผัดพริกแกงใต้", desc: "남부식 해산물 레드커리 볶음", category: "메인 요리", price: 15000 },
+            { name: "플라둑 팟 프릭깽 따이", thai: "ปลาดุกผัดพริกแกงใต้", desc: "남부식 메기 레드커리 볶음", category: "메인 요리", price: 15000 },
+            { name: "플라둑 팟 차", thai: "ปลาดุกผัดฉ่า", desc: "메기 매운 허브 볶음", category: "메인 요리", price: 15000 },
+            { name: "꼽 팟 차", thai: "กบผัดฉ่า", desc: "개구리 매운 허브 볶음", category: "메인 요리", price: 17000 },
+            { name: "카나 무 막", thai: "คะน้าหมูหมาก", desc: "케일 돼지고기 볶음", category: "메인 요리", price: 12000 },
+            { name: "쿠아 클링 무", thai: "คั่วกลิ้งหมู", desc: "남부식 드라이 카레 돼지고기 볶음", category: "메인 요리", price: 12000 },
+            { name: "팟 허이 라이", thai: "ผัดหอยลาย", desc: "매운 조개 볶음", category: "메인 요리", price: 12000 },
+            { name: "플라믁 팟 카이켐", thai: "ปลาหมึกผัดไข่เค็ม", desc: "오징어 쏠티드 에그 볶음", category: "메인 요리", price: 15000 },
+            { name: "꿍 팟 퐁커리", thai: "กุ้งผัดผงกะหรี่", desc: "새우 커리 가루 볶음", category: "메인 요리", price: 15000 },
+            { name: "푸님 팟 퐁커리", thai: "ปูนิ่มผัดผงกะหรี่", desc: "소프트크랩 커리 가루 볶음", category: "메인 요리", price: 15000 },
+            { name: "남프릭 까삐 + 플라투", thai: "น้ำพริกกะปิ + ปลาทู", desc: "새우젓 소스 + 고등어 튀김 세트", category: "메인 요리", price: 15000 },
+            { name: "꿍 채 남플라", thai: "กุ้งแช่น้ำปลา", desc: "태국식 생새우 회", category: "메인 요리", price: 15000 },
+            { name: "꼽 텃 크라티얌", thai: "กบทอดกระเทียม", desc: "개구리 마늘 튀김", category: "메인 요리", price: 17000 },
+            { name: "무 마나오", thai: "หมูมะนาว", desc: "매콤 새콤한 돼지고기 샤브 샐러드", category: "메인 요리", price: 13000 },
+            { name: "믁 마나오", thai: "หมึกมะนาว", desc: "매콤 새콤한 오징어 데침", category: "메인 요리", price: 17000 },
+            { name: "플라 탑팀 쌈롯", thai: "ปลาทับทิมสามรส", desc: "세 가지 맛 소스 붉은 틸라피아 튀김", category: "메인 요리", price: 30000 },
+            { name: "플라 탑팀 루이 수언", thai: "ปลาทับทิมลุยสวน", desc: "허브 샐러드 곁들인 붉은 틸라피아 튀김", category: "메인 요리", price: 30000 },
+            { name: "팟씨유 무 막", thai: "ผัดซีอิ๊วหมูหมาก", desc: "돼지고기 간장 볶음면", category: "면 요리", price: 12000 },
+            { name: "팟씨유 탈레", thai: "ผัดซีอิ๊วทะเล", desc: "해산물 간장 볶음면", category: "면 요리", price: 15000 },
+            { name: "랏나 무 막", thai: "ราดหน้าหมูหมาก", desc: "걸쭉한 울면 스타일 돼지고기 국수", category: "면 요리", price: 12000 },
+            { name: "랏나 탈레", thai: "ราดหน้าทะเล", desc: "걸쭉한 울면 스타일 해산물 국수", category: "면 요리", price: 15000 },
+            { name: "팟타이 무 막", thai: "ผัดไทยหมูหมาก", desc: "돼지고기 팟타이", category: "면 요리", price: 12000 },
+            { name: "팟타이 꿍", thai: "ผัดไทยกุ้ง", desc: "새우 팟타이", category: "면 요리", price: 15000 },
+            { name: "꾸어이띠여우 르아", thai: "ก๋วยเตี๋ยวเรือ", desc: "진한 선지 국물 쌀국수", category: "면 요리", price: 12000 },
+            { name: "꾸어이띠여우 남사이", thai: "ก๋วยเตี๋ยวน้ำใส", desc: "맑은 국물 쌀국수", category: "면 요리", price: 12000 },
+            { name: "꾸어이잡 까이 남콘", thai: "ก๋วยจั๊บไก่น้ำข้น", desc: "진한 국물 닭고기 국수", category: "면 요리", price: 13000 },
+            { name: "꾸어이띠여우 쌥 행", thai: "ก๋วยเตี๋ยวแห้ง", desc: "매운 비빔 국수", category: "면 요리", price: 12000 },
+            { name: "바미 까이 칙", thai: "บะหมี่ไก่ฉีก", desc: "찢은 닭고기 에그 누들", category: "면 요리", price: 10000 },
+            { name: "바미 끼여우 무댕 (행/남)", thai: "บะหมี่เกี๊ยวหมูแดง (แห้ง/น้ำ)", desc: "완탕 & 붉은 돼지고기 에그 누들 - 비빔/물", category: "면 요리", price: 12000 },
+            { name: "끼여우 남", thai: "เกี๊ยวน้ำ", desc: "완탕 스프", category: "면 요리", price: 10000 },
+            { name: "수키 남 무", thai: "สุกี้น้ำหมู", desc: "태국식 스키야키 국수 - 돼지", category: "면 요리", price: 12000 },
+            { name: "수키 남 탈레", thai: "สุกี้น้ำทะเล", desc: "태국식 스키야키 국수 - 해산물", category: "면 요리", price: 15000 },
+            { name: "카놈찐 남야 빠", thai: "ขนมจีนน้ำยาป่า", desc: "쌀소면 + 맑은 생선 카레", category: "면 요리", price: 13000 },
+            { name: "카놈찐 남야 까티 따이", thai: "ขนมจีนน้ำยากะทิใต้", desc: "쌀소면 + 남부식 코코넛 카레", category: "면 요리", price: 12000 },
+            { name: "카놈찐 깽 따이 플라", thai: "ขนมจีนแกงใต้ปลา", desc: "쌀소면 + 생선 내장 카레", category: "면 요리", price: 12000 },
+            { name: "똠카 까이", thai: "ต้มข่าไก่", desc: "코코넛 밀크 닭고기 스프", category: "찌개/국/커리", price: 13000 },
+            { name: "똠얌 꿍", thai: "ต้มยำกุ้ง", desc: "새우 똠얌찌개", category: "찌개/국/커리", price: 15000 },
+            { name: "똠얌 탈레", thai: "ต้มยำทะเล", desc: "해산물 똠얌찌개", category: "찌개/국/커리", price: 15000 },
+            { name: "똠얌 뽀텍 탈레", thai: "ต้มยำโป๊ะแตกทะเล", desc: "매운 맑은 해산물 찌개", category: "찌개/국/커리", price: 17000 },
+            { name: "똠 플라투 바이 마캄", thai: "ต้มปลาทูใบมะขาม", desc: "타마린드 잎 고등어 찌개", category: "찌개/국/커리", price: 17000 },
+            { name: "똠 슈퍼 틴 까이", thai: "ต้มซุปเปอร์ตีนไก่", desc: "매콤한 닭발 스프", category: "찌개/국/커리", price: 15000 },
+            { name: "깽쏨 꿍 차옴 카이", thai: "แกงส้มกุ้งชะอมไข่", desc: "새우 & 아카시아 계란말이 쏨 카레", category: "찌개/국/커리", price: 15000 },
+            { name: "깽 리양 꿍 솟", thai: "แกงเลียงกุ้งสด", desc: "새우 야채 스프", category: "찌개/국/커리", price: 15000 },
+            { name: "깽쯧 따오후 무쌉", thai: "แกงจืดเต้าหู้หมูสับ", desc: "맑은 연두부 돼지고기 국", category: "찌개/국/커리", price: 12000 },
+            { name: "깽 까티 까이 너마이", thai: "แกงกะทิไก่หน่อไม้", desc: "닭고기 죽순 코코넛 커리", category: "찌개/국/커리", price: 13000 },
+            { name: "깽 까티 무 사이 팍통", thai: "แกงกะทิหมูใส่ฟักทอง", desc: "돼지고기 단호박 코코넛 커리", category: "찌개/국/커리", price: 13000 },
+            { name: "깽 키여우 완 까이", thai: "แกงเขียวหวานไก่", desc: "닭고기 그린 커리", category: "찌개/국/커리", price: 13000 },
+            { name: "깽 따이 플라", thai: "แกงใต้ปลา", desc: "남부식 생선 내장 커리 - 아주 매움", category: "찌개/국/커리", price: 13000 },
+            { name: "깽 파 플라둑", thai: "แกงป่าปลาดุก", desc: "메기 정글 커리 - 코코넛X, 매움", category: "찌개/국/커리", price: 15000 },
+            { name: "파냉 무", thai: "พะแนงหมู", desc: "진한 파냉 커리 돼지고기", category: "찌개/국/커리", price: 12000 },
+            { name: "마싸만 까이", thai: "มัสมั่นไก่", desc: "마싸만 치킨 커리", category: "찌개/국/커리", price: 13000 },
+            { name: "땀 타이", thai: "ตำไทย", desc: "기본 쏨땀 - 새콤달콤", category: "쏨땀", price: 10000 },
+            { name: "땀 뿌 쁠라라", thai: "ตำปูปลาร้า", desc: "절인 게 & 젓갈 쏨땀 - 짭짤하고 진한 맛", category: "쏨땀", price: 12000 },
+            { name: "땀 타이 카이켐", thai: "ตำไทยไข่เค็ม", desc: "쏠티드 에그 쏨땀", category: "쏨땀", price: 13000 },
+            { name: "땀 카오폿 카이켐", thai: "ตำข้าวโพดไข่เค็ม", desc: "옥수수 & 쏠티드 에그 쏨땀", category: "쏨땀", price: 15000 },
+            { name: "땀 마무앙", thai: "ตำมะม่วง", desc: "그린 망고 샐러드", category: "쏨땀", price: 13000 },
+            { name: "땀 투아 팍야오", thai: "ตำถั่วฝักยาว", desc: "줄기콩 쏨땀", category: "쏨땀", price: 13000 },
+            { name: "땀 꿍 솟", thai: "ตำกุ้งสด", desc: "생새우 쏨땀", category: "쏨땀", price: 15000 },
+            { name: "땀 허이 크랭", thai: "ตำหอยแครง", desc: "꼬막 쏨땀", category: "쏨땀", price: 15000 },
+            { name: "땀 빠", thai: "ตำป่า", desc: "온갖 재료가 들어간 숲 스타일 쏨땀", category: "쏨땀", price: 15000 },
+            { name: "땀 타드", thai: "ตำถาด", desc: "쟁반 쏨땀 - 다양한 사이드 포함", category: "쏨땀", price: 20000 },
+            { name: "랍 무쌉", thai: "ลาบหมูสับ", desc: "다진 돼지고기 허브 무침", category: "이싼 음식", price: 12000 },
+            { name: "랍 플라믁", thai: "ลาบปลาหมึก", desc: "오징어 허브 무침", category: "이싼 음식", price: 15000 },
+            { name: "남똑 커무양", thai: "น้ำตกคอหมูย่าง", desc: "항정살 구이 무침", category: "이싼 음식", price: 15000 },
+            { name: "숩 너마이", thai: "ซุบหน่อไม้", desc: "죽순 무침", category: "이싼 음식", price: 13000 },
+            { name: "똠쌥 크라둑 언", thai: "ต้มแซ่บกระดูกอ่อน", desc: "돼지 연골 매운 국", category: "이싼 음식", price: 15000 },
+            { name: "똠쌥 엔 뚠", thai: "ต้มแซ่บเอ็นตุ๋น", desc: "소힘줄 매운 국", category: "이싼 음식", price: 18000 },
+            { name: "깽 까이 너마이 쏨", thai: "แกงไก่หน่อไม้ดอง", desc: "닭고기 절인 죽순 커리", category: "이싼 음식", price: 13000 },
+            { name: "깽 플라둑 너마이 쏨", thai: "แกงปลาดุกหน่อไม้ดอง", desc: "메기 절인 죽순 커리", category: "이싼 음식", price: 15000 },
+            { name: "깽 너마이", thai: "แกงหน่อไม้", desc: "죽순 커리 - 이싼 스타일", category: "이싼 음식", price: 13000 },
+            { name: "깽 헤드 루암", thai: "แกงเห็ดรวม", desc: "모듬 버섯 커리", category: "이싼 음식", price: 13000 },
+            { name: "깽 옴 무", thai: "แกงอ่อมหมู", desc: "이싼식 돼지고기 허브 찌개", category: "이싼 음식", price: 13000 },
+            { name: "깽 옴 까이", thai: "แกงอ่อมไก่", desc: "이싼식 닭고기 허브 찌개", category: "이싼 음식", price: 13000 },
+            { name: "플라 쏨 텃", thai: "ปลาส้มทอด", desc: "발효 생선 튀김 - 시큼한 맛", category: "이싼 음식", price: 15000 },
+            { name: "얌 운센 무쌉", thai: "ยำวุ้นเส้นหมูสับ", desc: "돼지고기 당면 샐러드", category: "얌", price: 13000 },
+            { name: "얌 운센 보란", thai: "ยำวุ้นเส้นโบราณ", desc: "옛날식 당면 샐러드", category: "얌", price: 13000 },
+            { name: "얌 운센 루암밋", thai: "ยำวุ้นเส้นรวมมิตร", desc: "모듬 당면 샐러드", category: "얌", price: 15000 },
+            { name: "얌 루암밋", thai: "ยำรวมมิตร", desc: "모듬 샐러드", category: "얌", price: 15000 },
+            { name: "얌 탈레", thai: "ยำทะเล", desc: "해산물 샐러드", category: "얌", price: 15000 },
+            { name: "얌 무요", thai: "ยำหมูยอ", desc: "태국 소시지 샐러드", category: "얌", price: 13000 },
+            { name: "얌 싸이 딴", thai: "ยำไส้ตัน", desc: "돼지 아기보 샐러드", category: "얌", price: 13000 },
+            { name: "얌 무요+카이댕켐 (쁠라라)", thai: "ยำหมูยอ+ไข่แดงเค็ม (ปลาร้า)", desc: "무요+노른자 젓갈 무침", category: "얌", price: 15000 },
+            { name: "얌 꿍 솟 (쁠라라)", thai: "ยำกุ้งสด (ปลาร้า)", desc: "생새우 젓갈 무침", category: "얌", price: 15000 },
+            { name: "얌 쌜몬 (쁠라라)", thai: "ยำแซลมอน (ปลาร้า)", desc: "연어 젓갈 무침", category: "얌", price: 15000 },
+            { name: "얌 허이 크랭 (쁠라라)", thai: "ยำหอยแครง (ปลาร้า)", desc: "꼬막 젓갈 무침", category: "얌", price: 15000 },
+            { name: "얌 뿌마 솟 (쁠라라)", thai: "ยำปูม้าสด (ปลาร้า)", desc: "생꽃게 젓갈 무침", category: "얌", price: 15000 },
+            { name: "무 뎃 디여우", thai: "หมูแดดเดียว", desc: "말린 돼지고기 튀김", category: "튀김/구이", price: 12000 },
+            { name: "느아 뎃 디여우", thai: "เนื้อแดดเดียว", desc: "말린 소고기 튀김", category: "튀김/구이", price: 13000 },
+            { name: "픽 까이 텃 남플라", thai: "ปีกไก่ทอดน้ำปลา", desc: "닭날개 피쉬소스 튀김", category: "튀김/구이", price: 13000 },
+            { name: "꼽 텃 크라티얌", thai: "กบทอดกระเทียม", desc: "개구리 마늘 튀김", category: "튀김/구이", price: 15000 },
+            { name: "싸이 크럭 이싼", thai: "ไส้กรอกอีสาน", desc: "이싼 소시지", category: "튀김/구이", price: 13000 },
+            { name: "냄 무 쌈찬 텃", thai: "แหนมหมูสามชั้นทอด", desc: "시큼한 삼겹살 튀김", category: "튀김/구이", price: 13000 },
+            { name: "냄 픽 까이 텃", thai: "แหนมปีกไก่ทอด", desc: "시큼한 닭날개 튀김", category: "튀김/구이", price: 13000 },
+            { name: "플라믁 양", thai: "ปลาหมึกย่าง", desc: "오징어 구이", category: "튀김/구이", price: 15000 },
+            { name: "플라둑 양", thai: "ปลาดุกย่าง", desc: "메기 구이", category: "튀김/구이", price: 10000 },
+            { name: "느아 까이 양", thai: "เนื้อไก่ย่าง", desc: "닭고기 꼬치 구이 - 5개", category: "튀김/구이", price: 10000 },
+            { name: "뗍 까이 삥", thai: "ตับไก่ปิ้ง", desc: "닭 간 구이 - 5개", category: "튀김/구이", price: 10000 },
+            { name: "룩친 루암 삥", thai: "ลูกชิ้นรวมปิ้ง", desc: "모듬 완자 꼬치 구이 - 5개", category: "튀김/구이", price: 10000 },
+            { name: "미양 허이 크랭", thai: "เมี่ยงหอยแครง", desc: "꼬막 쌈 세트", category: "쌈 / 샤브샤브 / 무카타", price: 15000 },
+            { name: "미양 탈레 루암", thai: "เมี่ยงทะเลรวม", desc: "해산물 쌈 세트", category: "쌈 / 샤브샤브 / 무카타", price: 18000 },
+            { name: "미양 플라투", thai: "เมี่ยงปลาทู", desc: "고등어 쌈 세트", category: "쌈 / 샤브샤브 / 무카타", price: 15000 },
+            { name: "미양 무 쌈찬", thai: "เมี่ยงหมูสามชั้น", desc: "삼겹살 쌈 세트", category: "쌈 / 샤브샤브 / 무카타", price: 15000 },
+            { name: "미양 플라 탑팀 파오", thai: "เมี่ยงปลาทับทิมเผา", desc: "붉은 틸라피아 구이 쌈", category: "쌈 / 샤브샤브 / 무카타", price: 30000 },
+            { name: "미양 플라 탑팀 능", thai: "เมี่ยงปลาทับทิมนึ่ง", desc: "붉은 틸라피아 찜 쌈", category: "쌈 / 샤브샤브 / 무카타", price: 30000 },
+            { name: "찜쭘 무 막", thai: "จิ้มจุ่มหมูหมาก", desc: "돼지고기 태국식 샤브샤브", category: "쌈 / 샤브샤브 / 무카타", price: 29000 },
+            { name: "찜쭘 느아 막", thai: "จิ้มจุ่มเนื้อหมาก", desc: "소고기 태국식 샤브샤브", category: "쌈 / 샤브샤브 / 무카타", price: 35000 },
+            { name: "춋 루암 무카타", thai: "ชุดรวมหมูกระทะ", desc: "무카타 돼지고기 세트 - 태국식 불고기", category: "쌈 / 샤브샤브 / 무카타", price: 35000 },
+            { name: "카오 무댕", thai: "ข้าวหมูแดง", desc: "붉은 돼지고기 덮밥", category: "스페셜 메뉴", price: 12000 },
+            { name: "카오 카무", thai: "ข้าวขาหมู", desc: "태국식 족발 덮밥", category: "스페셜 메뉴", price: 15000 },
+            { name: "카오 만 까이", thai: "ข้าวมันไก่", desc: "태국식 치킨 라이스", category: "스페셜 메뉴", price: 12000 },
+            { name: "카오 무껍", thai: "ข้าวหมูกรอบ", desc: "바삭한 삼겹살 덮밥", category: "스페셜 메뉴", price: 15000 },
+            { name: "호목 탈레", thai: "ห่อหมกทะเล", desc: "해산물 커리 찜", category: "스페셜 메뉴", price: 15000 },
+            { name: "꾸어이띠여우 느아 뚠", thai: "ก๋วยเตี๋ยวเนื้อตุ๋น", desc: "소고기 갈비 국수", category: "스페셜 메뉴", price: 15000 },
+            { name: "꾸어이띠여우 무 뚠", thai: "ก๋วยเตี๋ยวหมูตุ๋น", desc: "돼지고기 갈비 국수", category: "스페셜 메뉴", price: 13000 },
+            { name: "카놈찐 남니여우", thai: "ขนมจีนน้ำเงี้ยว", desc: "북부식 선지 국수", category: "스페셜 메뉴", price: 15000 },
+            { name: "카오 쏘이 까이", thai: "ข้าวซอยไก่", desc: "치앙마이 카레 국수 - 닭고기", category: "스페셜 메뉴", price: 15000 },
+            { name: "카놈 찝 꿍", thai: "ขนมจีบกุ้ง", desc: "새우 슈마이/딤섬", category: "간식 / 디저트", price: 7000 },
+            { name: "카놈 찝 꿍 카이켐", thai: "ขนมจีบกุ้งไข่เค็ม", desc: "새우 & 쏠티드 에그 슈마이", category: "간식 / 디저트", price: 7500 },
+            { name: "카놈 투어이", thai: "ขนมถ้วย", desc: "코코넛 밀크 푸딩", category: "간식 / 디저트", price: 6000 },
+            { name: "부아 러이 เผือก", thai: "บัวลอยเผือก", desc: "타로 펄 코코넛 밀크", category: "간식 / 디저트", price: 6000 },
+            { name: "탑팀 크롭", thai: "ทับทิมกรอบ", desc: "물밤 디저트", category: "간식 / 디저트", price: 6000 },
+            { name: "클루어이 텃", thai: "กล้วยทอด", desc: "바나나 튀김", category: "간식 / 디저트", price: 9000 },
+            { name: "만 텃", thai: "มันทอด", desc: "고구마/감자 튀김", category: "간식 / 디저트", price: 9000 },
+            { name: "차 옌", thai: "ชาเย็น", desc: "태국식 밀크티", category: "음료", price: 5000 },
+            { name: "차 키여우", thai: "ชาเขียว", desc: "태국식 그린 밀크티", category: "음료", price: 5000 },
+            { name: "오리양", thai: "โอเลี้ยง", desc: "태국식 블랙 커피", category: "음료", price: 5000 },
+            { name: "껙후어이", thai: "แคคฮวย", desc: "국화차", category: "음료", price: 5000 },
+            { name: "남 람야이", thai: "น้ำลำไย", desc: "용안 주스", category: "음료", price: 5000 }
+        ];
+
+        // 메뉴 렌더링 함수
+        function renderMenu(items) {
+            const container = document.getElementById('menuContainer');
+            if (items.length === 0) {
+                container.innerHTML = '<div class="empty">검색 결과가 없습니다. 😢</div>';
+                return;
+            }
+            container.innerHTML = items.map(item => `
+                <div class="menu-item" data-category="${item.category}">
+                    <div class="menu-info">
+                        <h3>${item.name}</h3>
+                        <div class="thai">${item.thai}</div>
+                        <div class="desc">${item.desc}</div>
+                    </div>
+                    <div class="price">${item.price.toLocaleString()}원</div>
+                </div>
+            `).join('');
+        }
+
+        // 초기 렌더링
+        renderMenu(menuData);
+
+        // 탭 기능
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelector('.tab-btn.active').classList.remove('active');
+                btn.classList.add('active');
+                const category = btn.dataset.category;
+                const filtered = category === 'all' ? menuData : 
+                    menuData.filter(item => item.category === category);
+                renderMenu(filtered);
+            });
+        });
+
+        // 검색 기능
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = menuData.filter(item => 
+                item.name.toLowerCase().includes(query) ||
+                item.desc.toLowerCase().includes(query) ||
+                item.thai.includes(query)
+            );
+            renderMenu(filtered);
+        });
+    </script>
+</body>
+</html>
