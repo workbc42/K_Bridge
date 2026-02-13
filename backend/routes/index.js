@@ -4,6 +4,7 @@ const { pool } = require('../db/pool');
 const authRoutes = require('./auth');
 const restaurantRoutes = require('./restaurants');
 const orderRoutes = require('./orders');
+const menuRoutes = require('./menu');
 
 const router = express.Router();
 
@@ -28,5 +29,6 @@ router.get('/health', async (req, res) => {
 router.use('/auth', authRoutes);
 router.use('/restaurants', restaurantRoutes);
 router.use('/orders', orderRoutes);
+router.use('/menu', menuRoutes);
 
 module.exports = router;

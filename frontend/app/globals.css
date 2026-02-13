@@ -1,4 +1,5 @@
 ﻿@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #f6f1ea;
@@ -16,7 +17,7 @@
   --header-height: 64px;
 }
 
-[data-theme='dark'] {
+.dark {
   --background: #0f1419;
   --background-alt: #1a1f26;
   --foreground: #e4e6eb;
@@ -35,6 +36,19 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sora);
   --font-serif: var(--font-newsreader);
+
+  /* Additional Fonts */
+  --font-kr: var(--font-noto-sans-kr);
+  --font-thai: var(--font-kanit);
+  --font-display: var(--font-playfair);
+
+  /* Thai Menu Theme */
+  --color-thai-primary: #B61E2E;
+  --color-thai-secondary: #D4AF37;
+  --color-thai-bg-light: #FDFCF8;
+  --color-thai-bg-dark: #121212;
+  --color-thai-card-light: #FFFFFF;
+  --color-thai-card-dark: #1E1E1E;
 }
 
 body {
@@ -51,7 +65,7 @@ body {
     linear-gradient(180deg, #f6f1ea 0%, #f3ece3 50%, #efe5d8 100%);
 }
 
-[data-theme='dark'] .dashboard-shell {
+.dark .dashboard-shell {
   background:
     radial-gradient(1200px 600px at 10% -10%, rgba(224, 122, 95, 0.12), transparent 60%),
     radial-gradient(800px 500px at 90% 10%, rgba(61, 64, 91, 0.12), transparent 60%),
@@ -644,6 +658,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -655,10 +670,12 @@ body {
     transform: scale(1);
     box-shadow: 0 10px 26px rgba(42, 91, 94, 0.06);
   }
+
   40% {
     transform: scale(1.02);
     box-shadow: 0 18px 34px rgba(42, 91, 94, 0.16);
   }
+
   100% {
     transform: scale(1);
     box-shadow: 0 10px 26px rgba(42, 91, 94, 0.06);
@@ -1204,6 +1221,7 @@ body {
 [data-sidebar='collapsed'] .dashboard-content {
   padding-left: 88px;
 }
+
 .auth-shell {
   min-height: 100vh;
   display: grid;

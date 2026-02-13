@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS menu_items (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  thai_name VARCHAR(255),
+  description TEXT,
+  category VARCHAR(100) NOT NULL,
+  price INTEGER NOT NULL DEFAULT 0,
+  image_url VARCHAR(500),
+  is_available BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_menu_items_category ON menu_items(category);
